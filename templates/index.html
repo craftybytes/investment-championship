@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Home - SNIC</title>
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='favicon.ico') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="{{ url_for('home') }}" class="nav-logo">Swiss National Investment Championship</a>
+            <ul class="nav-links">
+                <li><a href="{{ url_for('about') }}">The Committee</a></li>
+                <li><a href="{{ url_for('information') }}">Information</a></li>
+                <li><a href="{{ url_for('rules') }}">Rules</a></li>
+                <li><a href="{{ url_for('timeline') }}">Timeline</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container">
+        <h1>Welcome</h1>
+        <p>Explore our website and discover what we have to offer</p>
+        <a href="{{ url_for('about') }}" class="btn">The Committee</a>
+    </div>
+</body>
+</html>

@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Rules - SNIC</title>
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='favicon.ico') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        .rules-container {
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 40px;
+            text-align: left;
+        }
+        .rules-section {
+            margin-bottom: 30px;
+        }
+        .rules-section h2 {
+            font-size: 24px;
+            color: #1a1a1a;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #E0E0E0;
+        }
+        .rules-section h3 {
+            font-size: 18px;
+            color: #2C2C2C;
+            margin-top: 20px;
+            margin-bottom: 10px;
+        }
+        .rule-item {
+            margin-bottom: 12px;
+            line-height: 1.6;
+        }
+        .rule-number {
+            font-weight: 600;
+            color: #1a1a1a;
+        }
+        .severity-badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-left: 8px;
+        }
+        .minor {
+            background-color: #FFF3CD;
+            color: #856404;
+        }
+        .major {
+            background-color: #F8D7DA;
+            color: #721C24;
+        }
+        .critical {
+            background-color: #F5C6CB;
+            color: #A71D2A;
+            font-weight: 700;
+        }
+        .member-search-section {
+            margin-top: 60px;
+            padding: 40px;
+            background-color: white;
+            border-radius: 16px;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+        }
+        .member-search-bar {
+            max-width: 600px;
+            margin: 30px auto 40px;
+        }
+        .member-search-bar .search-bar {
+            display: flex;
+            gap: 0;
+            background-color: #F5F3EE;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 2px solid #E0E0E0;
+            transition: border-color 0.3s ease;
+        }
+        .member-search-bar .search-bar:focus-within {
+            border-color: #2C2C2C;
+        }
+        .member-search-bar .search-bar input {
+            flex: 1;
+            padding: 14px 20px;
+            font-family: "Inter", sans-serif;
+            font-size: 16px;
+            border: none;
+            outline: none;
+            background: transparent;
+            color: #2C2C2C;
+        }
+        .member-search-bar .search-bar input::placeholder {
+            color: #999;
+        }
+        .member-search-bar .search-bar button {
+            padding: 14px 28px;
+            background-color: #2C2C2C;
+            color: white;
+            border: none;
+            font-family: "Inter", sans-serif;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .member-search-bar .search-bar button:hover {
+            background-color: #1a1a1a;
+        }
+        .member-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+        .member-card {
+            padding: 20px;
+            background-color: #F5F3EE;
+            border-radius: 12px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .member-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+        }
+        .member-card h3 {
+            margin: 0 0 8px 0;
+            font-size: 18px;
+            color: #1a1a1a;
+        }
+        .member-card p {
+            margin: 4px 0;
+            font-size: 14px;
+            color: #666;
+        }
+        .member-role {
+            font-weight: 500;
+            color: #2C2C2C;
+        }
+        .no-results {
+            text-align: center;
+            padding: 40px;
+            color: #666;
+        }
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="{{ url_for('home') }}" class="nav-logo">Swiss National Investment Championship</a>
+            <ul class="nav-links">
+                <li><a href="{{ url_for('about') }}">The Committee</a></li>
+                <li><a href="{{ url_for('information') }}">Information</a></li>
+                <li><a href="{{ url_for('rules') }}">Rules</a></li>
+                <li><a href="{{ url_for('timeline') }}">Timeline</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="rules-container">
+        <h1 style="text-align: center; margin-bottom: 10px;">ISL SNIC 2026 - Official Rulebook</h1>
+        <p style="text-align: center; color: #666; margin-bottom: 40px;">Please read all rules carefully. Ignorance of any rule will not be accepted as justification for violations.</p>
+
+        <div class="rules-section">
+            <h2>1. Definitions, Scope, and Authority</h2>
+            <div class="rule-item"><span class="rule-number">1.1</span> This document constitutes the complete and binding rulebook for the Swiss National Investment Championship at ISL (hereafter referred to as "the Competition").</div>
+            <div class="rule-item"><span class="rule-number">1.2</span> The Competition is a simulated trading and investment event conducted for educational purposes only. No real financial assets are exchanged.</div>
+            <div class="rule-item"><span class="rule-number">1.3</span> The Organizing Committee (hereafter referred to as "the Committee") retains full authority over the interpretation, enforcement, modification, and application of all rules.</div>
+            <div class="rule-item"><span class="rule-number">1.4</span> By participating, all teams and individuals explicitly agree to comply with every rule listed in this document. Failure to comply will result in a violation ranging in severity (See clause 2).</div>
+            <div class="rule-item"><span class="rule-number">1.5</span> The ignorance and/or ambiguity/misunderstanding of any rule shall not be accepted as justification for any violation.</div>
+            <div class="rule-item"><span class="rule-number">1.6</span> The Committee reserves the right to issue binding clarifications that shall be considered extensions of this rulebook.</div>
+        </div>
+
+        <div class="rules-section">
+            <h2>2. Severity Classification</h2>
+            <p>All violations will be classified into one of the following categories:</p>
+            <div class="rule-item"><strong>Minor Violation</strong><span class="severity-badge minor">MINOR</span> - A breach that does not affect fairness, safety, or integrity but violates procedural or formal rules.</div>
+            <div class="rule-item"><strong>Major Violation</strong><span class="severity-badge major">MAJOR</span> - A breach that affects competitive fairness, transparency, or proper conduct.</div>
+            <div class="rule-item"><strong>Critical Violation</strong><span class="severity-badge critical">CRITICAL</span> - A breach that compromises the integrity, legality, or core principles of the Competition.</div>
+            <div class="rule-item"><span class="rule-number">2.1</span> The Committee retains full discretion in classifying the severity of any violation.</div>
+            <div class="rule-item"><span class="rule-number">2.2</span> Repeated Minor Violations (3) may be escalated to a Major Violation. Repeated Major violations (2) may be escalated to a Critical Violation (see clause 2.3).</div>
+            <div class="rule-item"><span class="rule-number">2.3</span> Any single Critical Violation shall result in immediate disqualification unless explicitly stated otherwise.</div>
+        </div>
+
+        <div class="rules-section">
+            <h2>3. Eligibility</h2>
+            <div class="rule-item"><span class="rule-number">3.1</span> All participants must be enrolled in MYP3 (Year 9) or above.</div>
+            <div class="rule-item"><span class="rule-number">3.2</span> Participants below MYP3 may only compete if explicitly approved by their respective supervisor and the Committee.</div>
+            <div class="rule-item"><span class="rule-number">3.3</span> The absolute minimum age for participation is 12 years.</div>
+            <div class="rule-item"><span class="rule-number">3.4</span> Teams found to have falsified age or enrollment status shall be disqualified<span class="severity-badge critical">CRITICAL</span></div>
+            <div class="rule-item"><span class="rule-number">3.5</span> Eligibility is checked at registration and may be rechecked at any time (see 12.4).</div>
+        </div>
+
+        <div class="rules-section">
+            <h2>4. Team Composition</h2>
+            <div class="rule-item"><span class="rule-number">4.1</span> Each team must consist of no fewer than 2 and no more than 6 participants.</div>
+            <div class="rule-item"><span class="rule-number">4.2</span> Teams outside this range shall be disqualified<span class="severity-badge critical">CRITICAL</span></div>
+            <div class="rule-item"><span class="rule-number">4.3</span> Each team must designate:
+                <ul style="margin-top: 8px;">
+                    <li>One Team Leader (student)</li>
+                    <li>One Supervisor (staff or teacher)</li>
+                </ul>
+            </div>
+            <div class="rule-item"><span class="rule-number">4.4</span> The Team Leader is responsible for internal coordination.</div>
+            <div class="rule-item"><span class="rule-number">4.5</span> The Supervisor is responsible for compliance with this rulebook.</div>
+            <div class="rule-item"><span class="rule-number">4.6</span> Failure to designate both roles constitutes a Major Violation<span class="severity-badge major">MAJOR</span></div>
+        </div>
+
+        <div class="rules-section">
+            <h2>5. Supervisor Restrictions</h2>
+            <div class="rule-item"><span class="rule-number">5.1</span> Supervisors and all adults not enrolled as students must not provide specific trading, asset, or timing advice.</div>
+            <div class="rule-item"><span class="rule-number">5.2</span> Only generic economic or financial education is permitted.</div>
+            <div class="rule-item"><span class="rule-number">5.3</span> Any form of targeted strategic guidance constitutes a Critical Violation<span class="severity-badge critical">CRITICAL</span></div>
+            <div class="rule-item"><span class="rule-number">5.4</span> This rule includes indirect advice, hints, or recommendations.</div>
+            <div class="rule-item"><span class="rule-number">5.5</span> Violations of this section override exemptions stated in 3.2.</div>
+        </div>
+
+        <div class="rules-section">
+            <h2>6. Platform Usage</h2>
+            <div class="rule-item"><span class="rule-number">6.1</span> Only the officially provided trading platform may be used.</div>
+            <div class="rule-item"><span class="rule-number">6.2</span> Personal accounts, shared accounts between teams, or third-party platforms are strictly prohibited.</div>
+            <div class="rule-item"><span class="rule-number">6.3</span> All login credentials must remain confidential.</div>
+            <div class="rule-item"><span class="rule-number">6.4</span> Any breach of account integrity constitutes a Critical Violation<span class="severity-badge critical">CRITICAL</span></div>
+            <div class="rule-item"><span class="rule-number">6.5</span> Teams are responsible for all activity conducted on their account (see 14.2).</div>
+        </div>
+
+        <div class="rules-section">
+            <h2>7. Team Naming Rules</h2>
+            <div class="rule-item"><span class="rule-number">7.1</span> Team names must not be:
+                <ul style="margin-top: 8px;">
+                    <li>Racist and/or Discriminatory</li>
+                    <li>Sexually explicit</li>
+                    <li>Politically partisan</li>
+                    <li>Religiously offensive</li>
+                    <li>Violent</li>
+                    <li>Extremist</li>
+                    <li>Drug-related</li>
+                    <li>Criminal</li>
+                    <li>Harassing</li>
+                    <li>Defamatory</li>
+                    <li>Trademark-infringing</li>
+                    <li>Referencing self-harm or suicide</li>
+                </ul>
+            </div>
+            <div class="rule-item"><span class="rule-number">7.2</span> Team names must not reference real brands, teams, or organizations.</div>
+            <div class="rule-item"><span class="rule-number">7.3</span> Team names must be approved by the team's supervisor.</div>
+            <div class="rule-item"><span class="rule-number">7.4</span> Team names must be approved by the Committee.</div>
+            <div class="rule-item"><span class="rule-number">7.5</span> Inappropriate names result in immediate disqualification<span class="severity-badge critical">CRITICAL</span></div>
+            <div class="rule-item"><span class="rule-number">7.6</span> Renaming after approval is prohibited unless approved under 12.3.</div>
+        </div>
+
+        <div class="rules-section">
+            <h2>8. Communication Restrictions</h2>
+            <div class="rule-item"><span class="rule-number">8.1</span> Team members may not communicate with other teams about strategy.</div>
+            <div class="rule-item"><span class="rule-number">8.2</span> The only permitted external contact is the Competition Supervisor: Marco Bruce – mbruce@isl.ch, or the team supervisors.</div>
+            <div class="rule-item"><span class="rule-number">8.3</span> Any attempt to coordinate strategies constitutes a Critical Violation<span class="severity-badge critical">CRITICAL</span></div>
+            <div class="rule-item"><span class="rule-number">8.4</span> Public forums, group chats, or social media discussions about strategy are prohibited.</div>
+            <div class="rule-item"><span class="rule-number">8.5</span> Teams are permitted to appeal to any Violations placed upon them (See clause 2).</div>
+        </div>
+
+        <div class="rules-section">
+            <h2>9. Cryptocurrency Ban</h2>
+            <div class="rule-item"><span class="rule-number">9.1</span> All forms of cryptocurrency trading are prohibited.</div>
+            <div class="rule-item"><span class="rule-number">9.2</span> All crypto trackers, derivatives, or proxies are prohibited.</div>
+            <div class="rule-item"><span class="rule-number">9.3</span> Attempting to simulate crypto exposure through ETFs or similar products constitutes a Critical Violation<span class="severity-badge critical">CRITICAL</span></div>
+        </div>
+
+        <div class="rules-section">
+            <h2>10. Trade Requirements</h2>
+            <div class="rule-item"><span class="rule-number">10.1</span> Each team must place at least one trade before March 9th.</div>
+            <div class="rule-item"><span class="rule-number">10.2</span> Failure to do so constitutes a Critical Violation<span class="severity-badge critical">CRITICAL</span></div>
+            <div class="rule-item"><span class="rule-number">10.3</span> Every trade must include a written justification.</div>
+            <div class="rule-item"><span class="rule-number">10.4</span> Trade justifications must be logical and written by team members.</div>
+            <div class="rule-item"><span class="rule-number">10.5</span> Copying explanations constitutes a Major Violation<span class="severity-badge major">MAJOR</span></div>
+            <div class="rule-item"><span class="rule-number">10.6</span> Missing explanations constitute a Minor Violation<span class="severity-badge minor">MINOR</span></div>
+        </div>
+
+        <div class="rules-section">
+            <h2>11. Legality and Ethics</h2>
+            <div class="rule-item"><span class="rule-number">11.1</span> All trading must comply with international trading laws, even in simulation.</div>
+            <div class="rule-item"><span class="rule-number">11.2</span> Market manipulation is prohibited.</div>
+            <div class="rule-item"><span class="rule-number">11.3</span> Insider trading is prohibited.</div>
+            <div class="rule-item"><span class="rule-number">11.4</span> Any breach of this section constitutes a Critical Violation<span class="severity-badge critical">CRITICAL</span></div>
+        </div>
+
+        <div class="rules-section">
+            <h2>12. Enforcement and Audits</h2>
+            <div class="rule-item"><span class="rule-number">12.1</span> The Committee may audit any team at any time.</div>
+            <div class="rule-item"><span class="rule-number">12.2</span> Teams must cooperate fully.</div>
+            <div class="rule-item"><span class="rule-number">12.3</span> The Committee may require rule-based corrections.</div>
+            <div class="rule-item"><span class="rule-number">12.4</span> Eligibility may be rechecked.</div>
+            <div class="rule-item"><span class="rule-number">12.5</span> Refusal to comply constitutes a Critical Violation<span class="severity-badge critical">CRITICAL</span></div>
+        </div>
+
+        <div class="rules-section">
+            <h2>13. Account Access</h2>
+            <div class="rule-item"><span class="rule-number">13.1</span> Only registered team members may access the account.</div>
+            <div class="rule-item"><span class="rule-number">13.2</span> Allowing others to trade is prohibited.</div>
+            <div class="rule-item"><span class="rule-number">13.3</span> All actions taken on an account are the team's responsibility.</div>
+            <div class="rule-item"><span class="rule-number">13.4</span> Breaches constitute a Critical Violation<span class="severity-badge critical">CRITICAL</span></div>
+        </div>
+
+        <div class="rules-section">
+            <h2>14. Anti-Loophole Clause</h2>
+            <div class="rule-item"><span class="rule-number">14.1</span> Any attempt to exploit ambiguities shall be treated as intentional misconduct and a Major Violation<span class="severity-badge major">MAJOR</span></div>
+            <div class="rule-item"><span class="rule-number">14.2</span> The Committee's interpretation overrides all others.</div>
+            <div class="rule-item"><span class="rule-number">14.3</span> If a rule does not explicitly allow an action, it is considered prohibited.</div>
+            <div class="rule-item"><span class="rule-number">14.4</span> This clause supersedes all others.</div>
+        </div>
+
+        <div class="rules-section">
+            <h2>15. Final Authority</h2>
+            <div class="rule-item"><span class="rule-number">15.1</span> The Committee's decisions are final.</div>
+            <div class="rule-item"><span class="rule-number">15.2</span> Appeals may be submitted but may be rejected without explanation.</div>
+            <div class="rule-item"><span class="rule-number">15.3</span> Participation implies full acceptance of this rulebook.</div>
+        </div>
+
+        <p style="text-align: center; margin-top: 50px; font-weight: 600; font-size: 18px;">End of Official Rulebook</p>
+
+        <div style="text-align: center; margin-top: 40px;">
+            <a href="https://docs.google.com/document/d/1wIaWpWQPKlZ6GO7ZxNWX6RN4Ki0A1O-nCy8kMJYhqCc/edit?tab=t.0#heading=h.o6mb3un58ge3"
+                class="btn"
+                target="_blank"
+                rel="noopener noreferrer">Official Rules Document</a>
+        </div>
+    </div>
+
+    <script>
+    </script>
+</body>
+</html>

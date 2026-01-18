@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Information - SNIC</title>
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='favicon.ico') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        .info-container {
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 40px;
+        }
+        .info-box {
+            margin-bottom: 30px;
+            padding: 30px;
+            background-color: white;
+            border-radius: 16px;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+        }
+        .info-box h1 {
+            text-align: center;
+            font-size: 32px;
+            margin-bottom: 10px;
+            color: #1a1a1a;
+        }
+        .info-box h2 {
+            font-size: 24px;
+            color: #1a1a1a;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #E0E0E0;
+        }
+        .info-box p {
+            line-height: 1.6;
+            color: #333;
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="{{ url_for('home') }}" class="nav-logo">Swiss National Investment Championship</a>
+            <ul class="nav-links">
+                <li><a href="{{ url_for('about') }}">The Committee</a></li>
+                <li><a href="{{ url_for('information') }}">Information</a></li>
+                <li><a href="{{ url_for('rules') }}">Rules</a></li>
+                <li><a href="{{ url_for('timeline') }}">Timeline</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="info-container">
+        <div class="info-box">
+            <h1>Information</h1>
+        </div>
+
+        <div class="info-box">
+            <h2>Purpose</h2>
+            <p>We are launching this investment competition to democratize access to financial literacy and investment experience across international schools in Switzerland. Too often, opportunities to develop real-world financial skills are limited to those with existing resources or connections. By hosting this competition, we're creating a level playing field where students can learn, compete, and demonstrate their analytical abilities regardless of their background.</p>
+        </div>
+
+        <div class="info-box">
+            <h2>Why We're Qualified To Host</h2>
+            <p>Our team brings firsthand experience to this initiative. Having participated in similar investment competitions, we understand both the challenges participants face and the logistical requirements for running a successful event. This insider perspective allows us to:</p>
+            <p>Anticipate common questions and pain points, Design rules that are fair and engaging, Create a structure that balances education with competition, Provide meaningful mentorship throughout the process</p>
+        </div>
+
+        <div class="info-box">
+            <h2>Timeline and Structure</h2>
+            <p>Competition Period: February 23, 2026 – April 2, 2026</p>
+            <div style="text-align: center; margin: 30px 0;">
+                <a href="{{ url_for('timeline') }}" class="btn">See Timeline</a>
+            </div>
+            <p>This 5-week window is intentionally designed to provide substantial engagement time while remaining manageable alongside academic commitments. The extended timeframe allows participants to observe longer-term market trends, adjust their strategies thoughtfully, and develop a deeper understanding of investment dynamics - all while remaining accessible to students balancing IB, AP, or other rigorous academic programs.</p>
+        </div>
+    </div>
+</body>
+</html>

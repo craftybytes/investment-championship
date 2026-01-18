@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Timeline - SNIC</title>
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='favicon.ico') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        .timeline-container {
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 40px;
+        }
+        .timeline-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        .timeline-header h1 {
+            font-size: 32px;
+            margin-bottom: 10px;
+            color: #1a1a1a;
+        }
+        .timeline-header p {
+            font-size: 18px;
+            color: #666;
+        }
+        .phase {
+            margin-bottom: 40px;
+            padding: 30px;
+            background-color: white;
+            border-radius: 16px;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+        }
+        .phase-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #E0E0E0;
+        }
+        .phase-number {
+            background-color: #2C2C2C;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            margin-right: 15px;
+            flex-shrink: 0;
+        }
+        .phase-title {
+            font-size: 24px;
+            font-weight: 600;
+            color: #1a1a1a;
+        }
+        .phase-dates {
+            font-size: 16px;
+            color: #666;
+            font-weight: 500;
+            margin-bottom: 20px;
+        }
+        .event-item {
+            margin-bottom: 15px;
+            padding-left: 20px;
+        }
+        .event-date {
+            font-weight: 600;
+            color: #2C2C2C;
+        }
+        .week-section {
+            margin: 20px 0;
+            padding-left: 20px;
+        }
+        .week-title {
+            font-weight: 600;
+            color: #1a1a1a;
+            margin-bottom: 10px;
+            font-size: 18px;
+        }
+        ul {
+            margin: 10px 0;
+            padding-left: 20px;
+        }
+        ul li {
+            margin-bottom: 8px;
+            line-height: 1.6;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="{{ url_for('home') }}" class="nav-logo">Swiss National Investment Championship</a>
+            <ul class="nav-links">
+                <li><a href="{{ url_for('about') }}">The Committee</a></li>
+                <li><a href="{{ url_for('information') }}">Information</a></li>
+                <li><a href="{{ url_for('rules') }}">Rules</a></li>
+                <li><a href="{{ url_for('timeline') }}">Timeline</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="timeline-container">
+        <div class="timeline-header">
+            <h1>Investment Championship Timeline</h1>
+            <p>International School of Lausanne Investment Competition 2026</p>
+            <p><strong>February 23, 2026 – April 2, 2026 (5 weeks)</strong></p>
+        </div>
+
+        <div class="phase">
+            <div class="phase-header">
+                <div class="phase-number">1</div>
+                <div class="phase-title">Registration & Preparation</div>
+            </div>
+            <div class="phase-dates">February 9-22, 2026 (2 weeks before launch)</div>
+            <div class="event-item"><span class="event-date">February 9:</span> Competition announcement and registration opens</div>
+            <div class="event-item"><span class="event-date">February 9-15:</span> Marketing campaign across SGIS schools</div>
+            <div class="event-item"><span class="event-date">February 16:</span> Optional informational session (virtual/in-person hybrid for all SGIS schools)</div>
+            <div class="event-item"><span class="event-date">February 20, 11:59 PM:</span> Registration closes</div>
+            <div class="event-item"><span class="event-date">February 22:</span> Teams receive login credentials and competition rules packet</div>
+        </div>
+
+        <div class="phase">
+            <div class="phase-header">
+                <div class="phase-number">2</div>
+                <div class="phase-title">Competition Launch</div>
+            </div>
+            <div class="phase-dates">February 23, 2026</div>
+            <div class="event-item"><span class="event-date">9:00 AM:</span> Markets open for trading</div>
+            <div class="event-item"><span class="event-date">9:00 AM:</span> Welcome email with starting portfolio details</div>
+            <div class="event-item"><span class="event-date">All Day:</span> Participants make initial portfolio allocations</div>
+            <div class="event-item"><span class="event-date">5:00 PM:</span> First daily leaderboard update posted</div>
+        </div>
+
+        <div class="phase">
+            <div class="phase-header">
+                <div class="phase-number">3</div>
+                <div class="phase-title">Active Trading Period</div>
+            </div>
+            <div class="phase-dates">February 24 – March 21, 2026 (4 weeks)</div>
+
+            <div class="week-section">
+                <div class="week-title">Week 1 (Feb 24-28): Learning Phase</div>
+                <ul>
+                    <li>Daily leaderboard updates (5:00 PM CET)</li>
+                    <li>Participants adjust to market dynamics and get familiar with software</li>
+                    <li>Week 1 welcome meeting (online) answering questions especially about documentation and make clear that portfolio value does not equal an instant win</li>
+                    <li>Office hours available for technical questions via email</li>
+                </ul>
+            </div>
+
+            <div class="week-section">
+                <div class="week-title">Week 2 (Mar 3-7): Strategy Development</div>
+                <ul>
+                    <li>March 5: Mid-competition check-in email</li>
+                    <li>Participants refine their investment theses</li>
+                    <li>First signs of leading strategies emerge</li>
+                </ul>
+            </div>
+
+            <div class="week-section">
+                <div class="week-title">Week 3 (Mar 10-14): Midterm Review</div>
+                <ul>
+                    <li>March 12, 11:59 PM: Optional midterm report submission (bonus points for analysis quality)</li>
+                    <li>March 13: Midterm leaderboard spotlight featuring top performers</li>
+                    <li>Strategy adjustments based on performance</li>
+                </ul>
+            </div>
+
+            <div class="week-section">
+                <div class="week-title">Week 4 (Mar 17-21): Final Push</div>
+                <ul>
+                    <li>March 19: Reminder email about final report requirements</li>
+                    <li>Participants make final strategic decisions</li>
+                    <li>Increased market monitoring as competition end approaches</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="phase">
+            <div class="phase-header">
+                <div class="phase-number">4</div>
+                <div class="phase-title">Competition Close & Final Submissions</div>
+            </div>
+            <div class="phase-dates">March 22-28, 2026</div>
+            <div class="event-item"><span class="event-date">March 22, 4:00 PM:</span> Trading closes (before market close)</div>
+            <div class="event-item"><span class="event-date">March 22-25:</span> Participants prepare final reports</div>
+            <div class="event-item"><span class="event-date">March 25, 11:59 PM:</span> Final investment report due (mandatory)
+                <ul>
+                    <li>Portfolio performance analysis</li>
+                    <li>Investment rationale and strategy</li>
+                    <li>Key learnings and reflection</li>
+                    <li>3-5 pages recommended</li>
+                </ul>
+            </div>
+            <div class="event-item"><span class="event-date">March 26-28:</span> Judging period (organizers review reports)</div>
+        </div>
+
+        <div class="phase">
+            <div class="phase-header">
+                <div class="phase-number">5</div>
+                <div class="phase-title">Results & Recognition</div>
+            </div>
+            <div class="phase-dates">March 29 – April 2, 2026</div>
+            <div class="event-item"><span class="event-date">March 29:</span> Semifinalists announced (Top 3-5 teams)</div>
+            <div class="event-item"><span class="event-date">March 30-31:</span> Optional semifinalist interviews (15 min each, virtual)</div>
+            <div class="event-item"><span class="event-date">April 1:</span> In person final presentations
+                <ul>
+                    <li>Winners announced via email and school-wide announcement</li>
+                    <li>Awards ceremony (4:00 PM CET)</li>
+                    <li>Recognition certificates distributed</li>
+                    <li>Highlight reel of winning strategies shared</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
