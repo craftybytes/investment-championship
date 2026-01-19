@@ -4,7 +4,7 @@ from datetime import datetime
 import os
 
 app = Flask(__name__)
-app.secret_key = 'your-secret-key-here'  # Required for flash messages
+app.secret_key = 'your-secret-key-here'
 
 
 @app.route("/")
