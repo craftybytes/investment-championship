@@ -15,11 +15,6 @@ def about():
     return render_template('about.html')
 
 
-@app.route('/information')
-def information():
-    return render_template('information.html')
-
-
 @app.route('/rules')
 def rules():
     return render_template('rules.html')

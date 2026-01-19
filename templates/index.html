@@ -2,7 +2,6 @@
 <html>
 <head>
     <title>Home - SNIC</title>
-    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='favicon.ico') }}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -110,6 +109,52 @@
             }
         }
 
+        .content-section {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 60px 20px;
+        }
+
+        .content-box {
+            background: white;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            margin-bottom: 30px;
+            opacity: 0;
+            transform: translateX(-50px);
+        }
+
+        .content-box.visible {
+            animation: slideInFade 0.6s ease-out forwards;
+        }
+
+        @keyframes slideInFade {
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .content-box h2 {
+            font-size: 28px;
+            color: #1e40af;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 3px solid #3b82f6;
+        }
+
+        .content-box p {
+            line-height: 1.8;
+            color: #555;
+            margin-bottom: 15px;
+        }
+
+        .button-center {
+            text-align: center;
+            margin: 25px 0;
+        }
+
         .btn {
             display: inline-block;
             padding: 16px 36px;
@@ -118,6 +163,8 @@
             font-weight: 600;
             font-size: 16px;
             transition: transform 0.3s, box-shadow 0.3s;
+            background: #3b82f6;
+            color: white;
         }
 
         .btn-primary {
@@ -139,6 +186,11 @@
         .btn-secondary:hover {
             background: rgba(255, 255, 255, 0.3);
             transform: translateY(-2px);
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 16px rgba(0,0,0,0.15);
         }
 
         .info-section {
@@ -268,7 +320,8 @@
             .hero-buttons,
             .info-card,
             .section-title,
-            .section-subtitle {
+            .section-subtitle,
+            .content-box {
                 animation: none;
                 opacity: 1;
                 transform: none;
@@ -279,10 +332,9 @@
 <body>
     <nav class="navbar">
         <div class="nav-container">
-            <a href="{{ url_for('home') }}" class="nav-logo">Swiss National Investment Championship</a>
+            <a href="#" class="nav-logo">Swiss National Investment Championship</a>
             <ul class="nav-links">
                 <li><a href="{{ url_for('about') }}">The Committee</a></li>
-                <li><a href="{{ url_for('information') }}">Information</a></li>
                 <li><a href="{{ url_for('rules') }}">Rules</a></li>
                 <li><a href="{{ url_for('timeline') }}">Timeline</a></li>
             </ul>
@@ -293,8 +345,8 @@
         <h1>The first national, student-led investment competition in Switzerland</h1>
         <p>Join students from across Switzerland in this exciting investment challenge</p>
         <div class="hero-buttons">
-            <a href="{{ url_for('timeline') }}" class="btn btn-primary">See Timeline</a>
-            <a href="{{ url_for('information') }}" class="btn btn-secondary">Learn More</a>
+            <a href="#timeline" class="btn btn-primary">See Timeline</a>
+            <a href="#information" class="btn btn-secondary">Learn More</a>
         </div>
     </section>
 
@@ -320,6 +372,41 @@
         </div>
     </section>
 
+    <div class="content-section">
+        <div class="content-box">
+            <h2>Purpose</h2>
+            <p>We are launching this investment competition to democratize access to financial literacy and investment experience across international schools in Switzerland. Too often, opportunities to develop real-world financial skills are limited to those with existing resources or connections. By hosting this competition, we're creating a level playing field where students can learn, compete, and demonstrate their analytical abilities regardless of their background.</p>
+        </div>
+
+        <div class="content-box">
+            <h2>Why We're Qualified To Host</h2>
+            <p>Our team brings firsthand experience to this initiative. Having participated in similar investment competitions, we understand both the challenges participants face and the logistical requirements for running a successful event. This insider perspective allows us to:</p>
+            <p>Anticipate common questions and pain points, Design rules that are fair and engaging, Create a structure that balances education with competition, Provide meaningful mentorship throughout the process</p>
+        </div>
+
+        <div class="content-box">
+            <h2>Timeline and Structure</h2>
+            <p><strong>Competition Period:</strong> February 23, 2026 – April 2, 2026</p>
+            <div class="button-center">
+                <a href="#timeline" class="btn">View Full Timeline</a>
+            </div>
+            <p>This 5-week window is intentionally designed to provide substantial engagement time while remaining manageable alongside academic commitments. The extended timeframe allows participants to observe longer-term market trends, adjust their strategies thoughtfully, and develop a deeper understanding of investment dynamics - all while remaining accessible to students balancing IB, AP, or other rigorous academic programs.</p>
+        </div>
+
+        <div class="content-box">
+            <h2>Important Notice</h2>
+            <p>This is an independent competition and is not affiliated with or endorsed by the Swiss government.</p>
+        </div>
+
+        <div class="content-box">
+            <h2>Next Steps</h2>
+            <div class="button-center">
+                <a href="{{ url_for('about') }}" class="btn" style="margin: 10px;">Meet the Committee</a>
+                <a href="{{ url_for('rules') }}" class="btn" style="margin: 10px;">View Competition Rules</a>
+            </div>
+        </div>
+    </div>
+
     <script>
         const observerOptions = {
             threshold: 0.15,
@@ -334,7 +421,7 @@
             });
         }, observerOptions);
 
-        document.querySelectorAll('.info-card, .section-title, .section-subtitle').forEach(el => {
+        document.querySelectorAll('.info-card, .section-title, .section-subtitle, .content-box').forEach(el => {
             observer.observe(el);
         });
     </script>
