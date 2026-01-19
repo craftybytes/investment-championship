@@ -4,9 +4,13 @@ import os
 
 app = Flask(__name__)
 
+# Get the absolute path to the app directory
+BASE_DIR = os.path.abspath(os.path.dirname(__file__))
+FILES_DIR = os.path.join(BASE_DIR, 'files')
+
 # Create files directory if it doesn't exist
-if not os.path.exists('files'):
-    os.makedirs('files')
+if not os.path.exists(FILES_DIR):
+    os.makedirs(FILES_DIR)
 
 
 @app.route('/register')
@@ -49,8 +53,13 @@ def submit_registration():
                     year_of_study, experience, motivation]):
             return redirect(url_for('register', error='Please fill in all required fields'))
 
-        # Save to text file
-        registration_file = 'files/registrations.txt'
+        # Use absolute path for the registration file
+        registration_file = os.path.join(FILES_DIR, 'registrations.txt')
+
+        # Debug: Print the path being used
+        print(f"Attempting to save to: {registration_file}")
+        print(f"Directory exists: {os.path.exists(FILES_DIR)}")
+        print(f"Directory writable: {os.access(FILES_DIR, os.W_OK)}")
 
         # Create file with header if it doesn't exist
         if not os.path.isfile(registration_file):
@@ -75,10 +84,13 @@ def submit_registration():
             f.write(f"\nMotivation:\n{motivation}\n")
             f.write(f"{'-' * 80}\n\n")
 
+        print(f"Registration saved successfully for {email}")
         return redirect(url_for('register', success='true'))
 
     except Exception as e:
         print(f"Error processing registration: {e}")
+        import traceback
+        traceback.print_exc()
         return redirect(url_for('register', error='Something went wrong. Please try again.'))
 
 
