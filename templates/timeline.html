@@ -55,6 +55,7 @@
             text-decoration: none;
             font-weight: 500;
             transition: color 0.3s;
+            display: inline-block;
         }
 
         .nav-links a:hover,
@@ -98,6 +99,19 @@
             border-radius: 12px;
             box-shadow: 0 4px 20px rgba(0,0,0,0.08);
             margin-bottom: 30px;
+            opacity: 0;
+            transform: translateX(-50px);
+        }
+
+        .phase.visible {
+            animation: slideInFade 0.6s ease-out forwards;
+        }
+
+        @keyframes slideInFade {
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
         }
 
         .phase-header {
@@ -210,6 +224,14 @@
 
             .nav-links {
                 display: none;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .phase {
+                animation: none;
+                opacity: 1;
+                transform: none;
             }
         }
     </style>
@@ -341,5 +363,24 @@
             </div>
         </div>
     </div>
+
+    <script>
+        const observerOptions = {
+            threshold: 0.15,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.phase').forEach(el => {
+            observer.observe(el);
+        });
+    </script>
 </body>
 </html>
