@@ -12,6 +12,10 @@
             box-sizing: border-box;
         }
 
+        html {
+            scroll-behavior: smooth;
+        }
+
         body {
             font-family: 'Inter', sans-serif;
             line-height: 1.6;
@@ -123,6 +127,7 @@
             margin-bottom: 30px;
             opacity: 0;
             transform: translateX(-50px);
+            scroll-margin-top: 80px;
         }
 
         .content-box.visible {
@@ -196,6 +201,7 @@
         .info-section {
             padding: 80px 20px;
             background: white;
+            scroll-margin-top: 100px;
         }
 
         .info-container {
@@ -345,12 +351,12 @@
         <h1>The first national, student-led investment competition in Switzerland</h1>
         <p>Join students from across Switzerland in this exciting investment challenge</p>
         <div class="hero-buttons">
-            <a href="#timeline" class="btn btn-primary">See Timeline</a>
-            <a href="#information" class="btn btn-secondary">Learn More</a>
+            <a href="#purpose" class="btn btn-primary">Learn More</a>
+            <a href="{{ url_for('timeline') }}" class="btn btn-secondary">See Timeline</a>
         </div>
     </section>
 
-    <section class="info-section">
+    <section id="why-participate" class="info-section">
         <div class="info-container">
             <h2 class="section-title">Why Participate?</h2>
             <p class="section-subtitle">SNIC offers a unique opportunity to test your investment skills, network with peers, and gain real-world experience</p>
@@ -373,7 +379,7 @@
     </section>
 
     <div class="content-section">
-        <div class="content-box">
+        <div id="purpose" class="content-box">
             <h2>Purpose</h2>
             <p>We are launching this investment competition to democratize access to financial literacy and investment experience across international schools in Switzerland. Too often, opportunities to develop real-world financial skills are limited to those with existing resources or connections. By hosting this competition, we're creating a level playing field where students can learn, compete, and demonstrate their analytical abilities regardless of their background.</p>
         </div>
@@ -401,8 +407,8 @@
         <div class="content-box">
             <h2>Next Steps</h2>
             <div class="button-center">
-                <a href="{{ url_for('about') }}" class="btn" style="margin: 10px;">Meet the Committee</a>
-                <a href="{{ url_for('rules') }}" class="btn" style="margin: 10px;">View Competition Rules</a>
+                <a href="committee.html" class="btn" style="margin: 10px;">Meet the Committee</a>
+                <a href="rules.html" class="btn" style="margin: 10px;">View Competition Rules</a>
             </div>
         </div>
     </div>
