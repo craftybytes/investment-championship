@@ -352,7 +352,6 @@
         <p>Join students from across Switzerland in this exciting investment challenge</p>
         <div class="hero-buttons">
             <a href="#purpose" class="btn btn-primary">Learn More</a>
-            <a href="{{ url_for('timeline') }}" class="btn btn-secondary">See Timeline</a>
         </div>
     </section>
 
@@ -394,7 +393,7 @@
             <h2>Timeline and Structure</h2>
             <p><strong>Competition Period:</strong> February 23, 2026 – April 2, 2026</p>
             <div class="button-center">
-                <a href="#timeline" class="btn">View Full Timeline</a>
+                <a href="{{ url_for('timeline') }}" class="btn">View Full Timeline</a>
             </div>
             <p>This 5-week window is intentionally designed to provide substantial engagement time while remaining manageable alongside academic commitments. The extended timeframe allows participants to observe longer-term market trends, adjust their strategies thoughtfully, and develop a deeper understanding of investment dynamics - all while remaining accessible to students balancing IB, AP, or other rigorous academic programs.</p>
         </div>
@@ -407,8 +406,8 @@
         <div class="content-box">
             <h2>Next Steps</h2>
             <div class="button-center">
-                <a href="committee.html" class="btn" style="margin: 10px;">Meet the Committee</a>
-                <a href="rules.html" class="btn" style="margin: 10px;">View Competition Rules</a>
+                <a href="{{ url_for('about') }}" class="btn" style="margin: 10px;">Meet the Committee</a>
+                <a href="{{ url_for('rules') }}" class="btn" style="margin: 10px;">View Competition Rules</a>
             </div>
         </div>
     </div>
