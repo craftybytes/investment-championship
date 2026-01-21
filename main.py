@@ -2,6 +2,11 @@ from flask import Flask, render_template, request, redirect, url_for
 from datetime import datetime
 import os
 
+# To-do:
+"""
+- make moving timer for deadlines and important times
+"""
+
 app = Flask(__name__)
 
 

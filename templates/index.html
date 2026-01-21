@@ -340,7 +340,7 @@
         <div class="nav-container">
             <a href="#" class="nav-logo">Swiss National Investment Championship</a>
             <ul class="nav-links">
-                <li><a href="{{ url_for('about') }}">The Committee</a></li>
+                <li><a href="{{ url_for('about') }}">Meet The Team</a></li>
                 <li><a href="{{ url_for('rules') }}">Rules</a></li>
                 <li><a href="{{ url_for('timeline') }}">Timeline</a></li>
             </ul>
@@ -381,10 +381,6 @@
         <div id="purpose" class="content-box">
             <h2>Purpose</h2>
             <p>We are launching this investment competition to democratize access to financial literacy and investment experience across international schools in Switzerland. Too often, opportunities to develop real-world financial skills are limited to those with existing resources or connections. By hosting this competition, we're creating a level playing field where students can learn, compete, and demonstrate their analytical abilities regardless of their background.</p>
-        </div>
-
-        <div class="content-box">
-            <h2>Why We're Qualified To Host</h2>
             <p>Our team brings firsthand experience to this initiative. Having participated in similar investment competitions, we understand both the challenges participants face and the logistical requirements for running a successful event. This insider perspective allows us to:</p>
             <p>Anticipate common questions and pain points, Design rules that are fair and engaging, Create a structure that balances education with competition, Provide meaningful mentorship throughout the process</p>
         </div>
@@ -399,16 +395,35 @@
         </div>
 
         <div class="content-box">
-            <h2>Important Notice</h2>
-            <p>This is an independent competition and is not affiliated with or endorsed by the Swiss government.</p>
+            <h2>Competition Starts In</h2>
+            <div id="countdown" style="display: flex; justify-content: center; gap: 20px; margin: 30px 0; flex-wrap: wrap;">
+                <div style="text-align: center; background: #f0f7ff; padding: 20px; border-radius: 8px; min-width: 100px;">
+                    <div id="days" style="font-size: 36px; font-weight: 700; color: #1e40af;">0</div>
+                    <div style="font-size: 14px; color: #666; margin-top: 5px;">Days</div>
+                </div>
+                <div style="text-align: center; background: #f0f7ff; padding: 20px; border-radius: 8px; min-width: 100px;">
+                    <div id="hours" style="font-size: 36px; font-weight: 700; color: #1e40af;">0</div>
+                    <div style="font-size: 14px; color: #666; margin-top: 5px;">Hours</div>
+                </div>
+                <div style="text-align: center; background: #f0f7ff; padding: 20px; border-radius: 8px; min-width: 100px;">
+                    <div id="minutes" style="font-size: 36px; font-weight: 700; color: #1e40af;">0</div>
+                    <div style="font-size: 14px; color: #666; margin-top: 5px;">Minutes</div>
+                </div>
+                <div style="text-align: center; background: #f0f7ff; padding: 20px; border-radius: 8px; min-width: 100px;">
+                    <div id="seconds" style="font-size: 36px; font-weight: 700; color: #1e40af;">0</div>
+                    <div style="font-size: 14px; color: #666; margin-top: 5px;">Seconds</div>
+                </div>
+            </div>
         </div>
 
         <div class="content-box">
-            <h2>Next Steps</h2>
-            <div class="button-center">
-                <a href="{{ url_for('about') }}" class="btn" style="margin: 10px;">Meet the Committee</a>
-                <a href="{{ url_for('rules') }}" class="btn" style="margin: 10px;">View Competition Rules</a>
-            </div>
+            <h2>Costs</h2>
+            <p><strong>Competition Entry Price (per team):</strong> 29.99.- (Swiss Francs)</p>
+        </div>
+
+        <div class="content-box">
+            <h2>Important Notice</h2>
+            <p>This is an independent competition and is not affiliated with or endorsed by the Swiss government.</p>
         </div>
     </div>
 
@@ -429,6 +444,31 @@
         document.querySelectorAll('.info-card, .section-title, .section-subtitle, .content-box').forEach(el => {
             observer.observe(el);
         });
+
+        // Countdown Timer
+        const countdownDate = new Date('February 23, 2026 00:00:00').getTime();
+
+        function updateCountdown() {
+            const now = new Date().getTime();
+            const distance = countdownDate - now;
+
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            document.getElementById('days').textContent = days;
+            document.getElementById('hours').textContent = hours;
+            document.getElementById('minutes').textContent = minutes;
+            document.getElementById('seconds').textContent = seconds;
+
+            if (distance < 0) {
+                document.getElementById('countdown').innerHTML = '<p style="text-align: center; font-size: 24px; color: #1e40af; font-weight: 600;">Competition has started!</p>';
+            }
+        }
+
+        updateCountdown();
+        setInterval(updateCountdown, 1000);
     </script>
 </body>
 </html>
