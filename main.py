@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, redirect, url_for
-import yfinance as yf
+import yfinance
 from flask import jsonify
 from datetime import datetime
 import os
@@ -40,7 +40,7 @@ def watchlist():
 @app.route("/api/stock/<symbol>")
 def get_stock(symbol):
     try:
-        stock = yf.Ticker(symbol)
+        stock = yfinance.Ticker(symbol)
         hist = stock.history(period="2d")
 
         if hist.empty:
