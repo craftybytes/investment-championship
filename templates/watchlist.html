@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Watchlist - SNIC</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f8f9fa;
+        }
+
+        .navbar {
+            background: white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-logo {
+            font-size: 18px;
+            font-weight: 600;
+            color: #333;
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 30px;
+        }
+
+        .nav-links a {
+            color: #666;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+            display: inline-block;
+        }
+
+        .nav-links a:hover {
+            color: #3b82f6;
+        }
+
+        .hero {
+            background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
+            color: white;
+            text-align: center;
+            padding: 80px 20px;
+            min-height: 40vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .hero h1 {
+            font-size: 42px;
+            font-weight: 700;
+            margin-bottom: 15px;
+            line-height: 1.2;
+            max-width: 800px;
+        }
+
+        .hero p {
+            font-size: 18px;
+            margin-bottom: 20px;
+            max-width: 600px;
+        }
+
+        .content-section {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 60px 20px;
+        }
+
+        .content-box {
+            background: white;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            margin-bottom: 30px;
+            position: relative;
+        }
+
+        .content-box h2 {
+            font-size: 28px;
+            color: #1e40af;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 3px solid #3b82f6;
+        }
+
+        .search-container {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+            margin-top: 20px;
+        }
+
+        .search-input {
+            flex: 1;
+            padding: 12px 20px;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            font-size: 16px;
+            font-family: 'Inter', sans-serif;
+            transition: border-color 0.3s;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: #3b82f6;
+        }
+
+        .search-btn {
+            padding: 12px 30px;
+            background: #3b82f6;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .search-btn:hover {
+            background: #2563eb;
+        }
+
+        .search-btn:disabled {
+            background: #9ca3af;
+            cursor: not-allowed;
+        }
+
+        .view-toggle {
+            position: absolute;
+            top: 40px;
+            right: 40px;
+            display: flex;
+            gap: 0;
+            background: #f3f4f6;
+            padding: 4px;
+            border-radius: 10px;
+        }
+
+        .toggle-btn {
+            padding: 10px 16px;
+            border: none;
+            background: transparent;
+            color: #666;
+            font-weight: 600;
+            font-size: 18px;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: all 0.3s;
+            font-family: 'Inter', sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 44px;
+        }
+
+        .toggle-btn.active {
+            background: white;
+            color: #1e40af;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .loading {
+            text-align: center;
+            color: #666;
+            font-size: 18px;
+            padding: 100px 20px;
+            min-height: 400px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid #e5e7eb;
+            border-top-color: #3b82f6;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .error-message {
+            background: #fee2e2;
+            color: #991b1b;
+            padding: 16px 20px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+            border-left: 4px solid #dc2626;
+            font-weight: 500;
+        }
+
+        .success-message {
+            background: #d1fae5;
+            color: #065f46;
+            padding: 16px 20px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+            border-left: 4px solid #10b981;
+            font-weight: 500;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        /* Stock Card Styles - Grid View */
+        .stocks-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+
+        .stock-card {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            transition: transform 0.3s, box-shadow 0.3s;
+            position: relative;
+        }
+
+        .stock-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        }
+
+        .remove-btn {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: #fee2e2;
+            color: #991b1b;
+            border: none;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            font-size: 18px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+            font-weight: bold;
+        }
+
+        .remove-btn:hover {
+            background: #dc2626;
+            color: white;
+        }
+
+        .stock-symbol {
+            font-size: 24px;
+            font-weight: 700;
+            color: #1e40af;
+            margin-bottom: 5px;
+        }
+
+        .stock-name {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 20px;
+        }
+
+        .stock-price {
+            font-size: 32px;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 12px;
+        }
+
+        .stock-change {
+            padding: 8px 14px;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 15px;
+            display: inline-block;
+            margin-bottom: 20px;
+        }
+
+        .stock-change.positive {
+            background: #d1fae5;
+            color: #065f46;
+        }
+
+        .stock-change.negative {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        .stock-details {
+            border-top: 2px solid #f3f4f6;
+            padding-top: 20px;
+            margin-top: 20px;
+        }
+
+        .stock-detail-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 12px;
+            font-size: 15px;
+        }
+
+        .stock-detail-label {
+            color: #666;
+            font-weight: 500;
+        }
+
+        .stock-detail-value {
+            font-weight: 600;
+            color: #333;
+        }
+
+        /* List View Styles */
+        .stocks-list {
+            margin-top: 30px;
+        }
+
+        .stock-row {
+            background: white;
+            padding: 8px 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            margin-bottom: 8px;
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr 50px;
+            gap: 20px;
+            align-items: center;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .stock-row:hover {
+            transform: translateX(5px);
+            box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+        }
+
+        .stock-row .stock-symbol {
+            font-size: 18px;
+            margin: 0;
+        }
+
+        .stock-row .stock-name {
+            font-size: 13px;
+            margin-top: 2px;
+        }
+
+        .stock-row .stock-price {
+            font-size: 20px;
+            margin: 0;
+        }
+
+        .stock-row .stock-change {
+            margin: 0;
+            font-size: 14px;
+        }
+
+        .stock-row-label {
+            font-size: 11px;
+            color: #666;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 4px;
+        }
+
+        .stock-row .remove-btn {
+            position: static;
+            width: 28px;
+            height: 28px;
+            font-size: 16px;
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 32px;
+            }
+
+            .hero p {
+                font-size: 16px;
+            }
+
+            .nav-links {
+                gap: 15px;
+                font-size: 14px;
+            }
+
+            .view-toggle {
+                position: static;
+                margin-top: 20px;
+                justify-content: center;
+            }
+
+            .stocks-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .stock-row {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+
+            .search-container {
+                flex-direction: column;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .nav-logo {
+                font-size: 14px;
+            }
+
+            .nav-links {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="/" class="nav-logo">Swiss National Investment Championship</a>
+            <ul class="nav-links">
+                <li><a href="{{ url_for('about') }}">Meet The Team</a></li>
+                <li><a href="{{ url_for('rules') }}">Rules</a></li>
+                <li><a href="{{ url_for('timeline') }}">Timeline</a></li>
+                <li><a href="{{ url_for('home') }}">Watchlist</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <h1>Your Stock Watchlist</h1>
+        <p>Track and monitor your favorite stocks in real-time</p>
+    </section>
+
+    <div class="content-section">
+        <div id="errorMessage" class="error-message hidden"></div>
+        <div id="successMessage" class="success-message hidden"></div>
+
+        <div class="content-box">
+            <h2>Your Stocks</h2>
+
+            <div class="search-container">
+                <input
+                    type="text"
+                    id="searchInput"
+                    class="search-input"
+                    placeholder="Enter stock symbol (e.g., AAPL, TSLA, NFLX)"
+                    onkeypress="if(event.key === 'Enter') addStock()"
+                >
+                <button class="search-btn" onclick="addStock()">Add Stock</button>
+            </div>
+
+            <div class="view-toggle">
+                <button class="toggle-btn active" id="gridViewBtn" title="Grid View">⊞</button>
+                <button class="toggle-btn" id="listViewBtn" title="List View">☰</button>
+            </div>
+            <div id="stocksContainer" class="loading">
+                <div class="spinner"></div>
+                <div>Loading stocks...</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let popularStocks = ['AAPL', 'GOOGL', 'MSFT', 'TSLA', 'AMZN', 'NVDA', 'META', 'NFLX'];
+        let viewMode = 'grid';
+        let stocks = [];
+
+        function showError(message) {
+            const errorDiv = document.getElementById('errorMessage');
+            errorDiv.textContent = message;
+            errorDiv.classList.remove('hidden');
+            setTimeout(() => {
+                errorDiv.classList.add('hidden');
+            }, 5000);
+        }
+
+        function showSuccess(message) {
+            const successDiv = document.getElementById('successMessage');
+            successDiv.textContent = message;
+            successDiv.classList.remove('hidden');
+            setTimeout(() => {
+                successDiv.classList.add('hidden');
+            }, 3000);
+        }
+
+        async function loadStocks() {
+            const container = document.getElementById('stocksContainer');
+            container.innerHTML = '<div class="loading"><div class="spinner"></div><div>Loading stocks...</div></div>';
+            stocks = [];
+
+            try {
+                for (const symbol of popularStocks) {
+                    const stock = await fetchStockData(symbol);
+                    if (stock && !stock.error) {
+                        stocks.push(stock);
+                    }
+                }
+
+                if (stocks.length === 0) {
+                    showError('Unable to load stock data. Please try again later.');
+                    container.innerHTML = '<div class="loading" style="min-height: 300px;">Unable to load stock data.</div>';
+                } else {
+                    displayStocks();
+                }
+            } catch (error) {
+                showError('Failed to load stocks.');
+                console.error('Error:', error);
+            }
+        }
+
+        async function fetchStockData(symbol) {
+            try {
+                const response = await fetch(`/api/stock/${symbol}`);
+                if (!response.ok) {
+                    throw new Error('Failed to fetch stock data');
+                }
+                const data = await response.json();
+                return data;
+            } catch (error) {
+                console.error(`Error fetching ${symbol}:`, error);
+                return null;
+            }
+        }
+
+        async function addStock() {
+            const input = document.getElementById('searchInput');
+            const symbol = input.value.trim().toUpperCase();
+
+            if (!symbol) {
+                showError('Please enter a stock symbol');
+                return;
+            }
+
+            if (popularStocks.includes(symbol)) {
+                showError(`${symbol} is already in your list`);
+                return;
+            }
+
+            const btn = document.querySelector('.search-btn');
+            btn.disabled = true;
+            btn.textContent = 'Adding...';
+
+            const stock = await fetchStockData(symbol);
+
+            if (stock && !stock.error) {
+                popularStocks.push(symbol);
+                stocks.push(stock);
+                displayStocks();
+                showSuccess(`${symbol} added successfully!`);
+                input.value = '';
+            } else {
+                showError(`Unable to find stock data for ${symbol}`);
+            }
+
+            btn.disabled = false;
+            btn.textContent = 'Add Stock';
+        }
+
+        function removeStock(symbol) {
+            popularStocks = popularStocks.filter(s => s !== symbol);
+            stocks = stocks.filter(s => s.symbol !== symbol);
+            displayStocks();
+            showSuccess(`${symbol} removed from list`);
+        }
+
+        function displayStocks() {
+            const container = document.getElementById('stocksContainer');
+
+            if (stocks.length === 0) {
+                container.innerHTML = '<div class="loading" style="min-height: 300px;">No stocks available. Add some using the search bar above!</div>';
+                return;
+            }
+
+            if (viewMode === 'grid') {
+                displayGridView(container);
+            } else {
+                displayListView(container);
+            }
+        }
+
+        function displayGridView(container) {
+            container.className = 'stocks-grid';
+            container.innerHTML = stocks.map(stock => `
+                <div class="stock-card">
+                    <button class="remove-btn" onclick="removeStock('${stock.symbol}')" title="Remove stock">×</button>
+                    <div class="stock-symbol">${stock.symbol}</div>
+                    <div class="stock-name">${stock.name}</div>
+                    <div class="stock-price">$${stock.price.toFixed(2)}</div>
+                    <div class="stock-change ${stock.change >= 0 ? 'positive' : 'negative'}">
+                        ${stock.change >= 0 ? '▲' : '▼'}
+                        $${Math.abs(stock.change).toFixed(2)}
+                        (${stock.change_percent >= 0 ? '+' : ''}${stock.change_percent.toFixed(2)}%)
+                    </div>
+                    <div class="stock-details">
+                        <div class="stock-detail-row">
+                            <span class="stock-detail-label">% Change Today</span>
+                            <span class="stock-detail-value" style="color: ${stock.change_percent >= 0 ? '#065f46' : '#991b1b'}">
+                                ${stock.change_percent >= 0 ? '+' : ''}${stock.change_percent.toFixed(2)}%
+                            </span>
+                        </div>
+                        <div class="stock-detail-row">
+                            <span class="stock-detail-label">$ Change Today</span>
+                            <span class="stock-detail-value" style="color: ${stock.change >= 0 ? '#065f46' : '#991b1b'}">
+                                ${stock.change >= 0 ? '+' : ''}$${stock.change.toFixed(2)}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function displayListView(container) {
+            container.className = 'stocks-list';
+            container.innerHTML = stocks.map(stock => `
+                <div class="stock-row">
+                    <div>
+                        <div class="stock-symbol">${stock.symbol}</div>
+                        <div class="stock-name">${stock.name}</div>
+                    </div>
+                    <div class="stock-price">$${stock.price.toFixed(2)}</div>
+                    <div>
+                        <div class="stock-row-label">Day Change $</div>
+                        <div class="stock-change ${stock.change >= 0 ? 'positive' : 'negative'}">
+                            ${stock.change >= 0 ? '▲' : '▼'}
+                            $${Math.abs(stock.change).toFixed(2)}
+                        </div>
+                    </div>
+                    <div>
+                        <div class="stock-row-label">Day Change %</div>
+                        <div class="stock-change ${stock.change_percent >= 0 ? 'positive' : 'negative'}">
+                            ${stock.change_percent >= 0 ? '+' : ''}${stock.change_percent.toFixed(2)}%
+                        </div>
+                    </div>
+                    <button class="remove-btn" onclick="removeStock('${stock.symbol}')" title="Remove stock">×</button>
+                </div>
+            `).join('');
+        }
+
+        // View Toggle
+        document.getElementById('gridViewBtn').addEventListener('click', function() {
+            viewMode = 'grid';
+            this.classList.add('active');
+            document.getElementById('listViewBtn').classList.remove('active');
+            displayStocks();
+        });
+
+        document.getElementById('listViewBtn').addEventListener('click', function() {
+            viewMode = 'list';
+            this.classList.add('active');
+            document.getElementById('gridViewBtn').classList.remove('active');
+            displayStocks();
+        });
+
+        // Initialize
+        loadStocks();
+    </script>
+</body>
+</html>
