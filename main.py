@@ -33,3 +33,327 @@ def timeline():
 
 if __name__ == '__main__':
     app.run(debug=True)
+
+# Index.html
+"""
+<!-- templates/index.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Home - SNIC</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body { font-family: 'Inter', sans-serif; line-height: 1.6; color: #333; overflow-x: hidden; }
+        
+        /* Hamburger Menu */
+        .hamburger { display: none; flex-direction: column; cursor: pointer; z-index: 101; }
+        .hamburger span { width: 25px; height: 3px; background: #1e40af; margin: 3px 0; transition: all 0.3s ease; border-radius: 3px; }
+        .hamburger.active span:nth-child(1) { transform: rotate(45deg) translate(8px, 8px); }
+        .hamburger.active span:nth-child(2) { opacity: 0; }
+        .hamburger.active span:nth-child(3) { transform: rotate(-45deg) translate(7px, -7px); }
+        .mobile-menu { position: fixed; top: 0; right: -100%; width: 70%; max-width: 300px; height: 100vh; background: white; box-shadow: -2px 0 10px rgba(0,0,0,0.1); z-index: 100; transition: right 0.3s ease; padding: 80px 30px 30px; }
+        .mobile-menu.active { right: 0; }
+        .mobile-menu-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background: rgba(0,0,0,0.5); z-index: 99; opacity: 0; visibility: hidden; transition: all 0.3s ease; }
+        .mobile-menu-overlay.active { opacity: 1; visibility: visible; }
+        .mobile-menu ul { list-style: none; }
+        .mobile-menu ul li { margin-bottom: 25px; }
+        .mobile-menu ul li a { color: #333; text-decoration: none; font-size: 18px; font-weight: 600; display: block; padding: 10px 0; transition: all 0.3s ease; }
+        .mobile-menu ul li a:hover, .mobile-menu ul li a.active { color: #3b82f6; transform: translateX(10px); }
+
+        /* Navbar */
+        .navbar { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); box-shadow: 0 2px 20px rgba(0,0,0,0.08); position: sticky; top: 0; z-index: 100; transition: all 0.3s ease; }
+        .navbar.scrolled { box-shadow: 0 4px 30px rgba(0,0,0,0.15); }
+        .nav-container { max-width: 1200px; margin: 0 auto; padding: 20px; display: flex; justify-content: space-between; align-items: center; min-height: 69px; }
+        .nav-logo { font-size: 18px; font-weight: 700; color: #1e40af; text-decoration: none; transition: all 0.3s ease; position: relative; white-space: nowrap; }
+        .nav-logo::after { content: ''; position: absolute; bottom: -5px; left: 0; width: 0; height: 3px; background: linear-gradient(90deg, #3b82f6, #8b5cf6); transition: width 0.3s ease; }
+        .nav-logo:hover::after { width: 100%; }
+        .nav-links { display: flex; list-style: none; gap: 30px; }
+        .nav-links a { color: #666; text-decoration: none; font-weight: 600; transition: all 0.3s ease; display: inline-block; position: relative; padding: 5px 0; }
+        .nav-links a::before { content: ''; position: absolute; bottom: 0; left: 50%; width: 0; height: 2px; background: #3b82f6; transition: all 0.3s ease; transform: translateX(-50%); }
+        .nav-links a:hover { color: #3b82f6; transform: translateY(-2px); }
+        .nav-links a:hover::before { width: 100%; }
+
+        /* Countdown */
+        .top-countdown { background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%); color: white; padding: 15px 20px; text-align: center; font-size: 14px; font-weight: 600; }
+        .top-countdown-timer { display: flex; justify-content: center; gap: 15px; margin-top: 8px; flex-wrap: wrap; }
+        .top-countdown-item { display: flex; flex-direction: column; align-items: center; }
+        .top-countdown-number { font-size: 24px; font-weight: 800; line-height: 1; }
+        .top-countdown-label { font-size: 10px; text-transform: uppercase; opacity: 0.9; margin-top: 2px; }
+
+        /* Hero */
+        .hero { background: linear-gradient(135deg, #1e40af 0%, #3b82f6 50%, #8b5cf6 100%); color: white; text-align: center; padding: 140px 20px; min-height: 85vh; display: flex; flex-direction: column; justify-content: center; align-items: center; position: relative; overflow: hidden; }
+        .hero::before { content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: url('data:image/svg+xml,<svg width="100" height="100" xmlns="http://www.w3.org/2000/svg"><circle cx="2" cy="2" r="1" fill="white" opacity="0.1"/></svg>'); animation: float 20s linear infinite; }
+        @keyframes float { 0% { transform: translateY(0); } 100% { transform: translateY(-100px); } }
+        .hero-content { position: relative; z-index: 1; width: 100%; display: flex; flex-direction: column; align-items: center; }
+        .hero h1 { font-size: 64px; font-weight: 800; margin-bottom: 30px; line-height: 1.2; max-width: 1000px; opacity: 0; transform: translateY(30px); animation: fadeInUp 0.8s ease-out 0.2s forwards; text-shadow: 0 4px 20px rgba(0,0,0,0.2); }
+        .hero p { font-size: 24px; margin-bottom: 50px; opacity: 0; max-width: 700px; transform: translateY(30px); animation: fadeInUp 0.8s ease-out 0.4s forwards; text-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        .hero-buttons { display: flex; gap: 20px; flex-wrap: wrap; justify-content: center; opacity: 0; transform: translateY(30px); animation: fadeInUp 0.8s ease-out 0.6s forwards; }
+        @keyframes fadeInUp { to { opacity: 1; transform: translateY(0); } }
+        .floating-shapes { position: absolute; width: 100%; height: 100%; overflow: hidden; pointer-events: none; }
+        .shape { position: absolute; opacity: 0.1; animation: floatShape 20s infinite; }
+        .shape:nth-child(1) { width: 100px; height: 100px; background: white; border-radius: 50%; top: 20%; left: 10%; animation-delay: 0s; }
+        .shape:nth-child(2) { width: 60px; height: 60px; background: white; border-radius: 10px; top: 60%; left: 80%; animation-delay: 5s; }
+        .shape:nth-child(3) { width: 80px; height: 80px; background: white; border-radius: 50%; top: 40%; right: 10%; animation-delay: 10s; }
+        @keyframes floatShape { 0%, 100% { transform: translate(0, 0) rotate(0deg); } 25% { transform: translate(30px, -30px) rotate(90deg); } 50% { transform: translate(-20px, -60px) rotate(180deg); } 75% { transform: translate(-40px, -30px) rotate(270deg); } }
+
+        /* Buttons */
+        .btn { display: inline-block; padding: 20px 50px; border-radius: 12px; text-decoration: none; font-weight: 700; font-size: 18px; transition: all 0.3s ease; background: #3b82f6; color: white; position: relative; overflow: hidden; box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4); }
+        .btn::before { content: ''; position: absolute; top: 50%; left: 50%; width: 0; height: 0; border-radius: 50%; background: rgba(255, 255, 255, 0.3); transform: translate(-50%, -50%); transition: width 0.6s ease, height 0.6s ease; }
+        .btn:hover::before { width: 300px; height: 300px; }
+        .btn span { position: relative; z-index: 1; }
+        .btn-primary { background: white; color: #1e40af; box-shadow: 0 6px 20px rgba(255, 255, 255, 0.4); }
+        .btn-primary:hover { transform: translateY(-3px) scale(1.05); box-shadow: 0 12px 35px rgba(255, 255, 255, 0.5); }
+        .btn:hover { transform: translateY(-3px) scale(1.05); box-shadow: 0 8px 25px rgba(0,0,0,0.2); }
+        .btn:active { transform: translateY(-1px) scale(1.02); }
+
+        /* Info Section */
+        .info-section { padding: 100px 20px; background: linear-gradient(180deg, #f8f9fa 0%, white 100%); }
+        .info-container { max-width: 1200px; margin: 0 auto; }
+        .section-title { text-align: center; font-size: 52px; font-weight: 800; background: linear-gradient(135deg, #1e40af, #3b82f6, #8b5cf6); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-bottom: 25px; opacity: 0; transform: translateY(30px); transition: all 0.8s ease; }
+        .section-title.visible { opacity: 1; transform: translateY(0); }
+        .section-subtitle { text-align: center; font-size: 20px; color: #666; max-width: 700px; margin: 0 auto 60px; opacity: 0; transform: translateY(30px); transition: all 0.8s ease 0.2s; }
+        .section-subtitle.visible { opacity: 1; transform: translateY(0); }
+        .info-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 40px; margin-top: 50px; }
+        .info-card { padding: 50px 40px; background: white; border-radius: 20px; text-align: center; transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); box-shadow: 0 10px 30px rgba(0,0,0,0.08); position: relative; overflow: hidden; cursor: pointer; opacity: 0; transform: translateY(50px); }
+        .info-card::before { content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: radial-gradient(circle, rgba(59, 130, 246, 0.1) 0%, transparent 70%); opacity: 0; transition: opacity 0.5s ease; }
+        .info-card:hover::before { opacity: 1; animation: rotate 3s linear infinite; }
+        @keyframes rotate { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        .info-card:hover { transform: translateY(-15px) rotate(-2deg); box-shadow: 0 25px 60px rgba(59, 130, 246, 0.3); }
+        .info-card h3 { font-size: 32px; margin-bottom: 20px; color: #1e40af; transition: all 0.3s ease; position: relative; z-index: 1; }
+        .info-card:hover h3 { transform: scale(1.15); }
+        .info-card p { color: #666; line-height: 1.8; position: relative; z-index: 1; font-size: 16px; }
+
+        /* Final CTA */
+        .final-cta { padding: 120px 20px; background: linear-gradient(135deg, #1e40af 0%, #3b82f6 50%, #8b5cf6 100%); text-align: center; color: white; position: relative; overflow: hidden; }
+        .final-cta::before { content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: url('data:image/svg+xml,<svg width="100" height="100" xmlns="http://www.w3.org/2000/svg"><circle cx="2" cy="2" r="1" fill="white" opacity="0.05"/></svg>'); animation: float 25s linear infinite; }
+        .final-cta-content { position: relative; z-index: 1; max-width: 800px; margin: 0 auto; }
+        .final-cta h2 { font-size: 48px; font-weight: 800; margin-bottom: 25px; text-shadow: 0 4px 20px rgba(0,0,0,0.2); }
+        .final-cta p { font-size: 22px; margin-bottom: 40px; opacity: 0.95; text-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        .price-tag { display: inline-block; background: rgba(255, 255, 255, 0.15); padding: 15px 40px; border-radius: 50px; font-size: 28px; font-weight: 800; margin: 30px 0; backdrop-filter: blur(10px); border: 2px solid rgba(255, 255, 255, 0.3); box-shadow: 0 8px 25px rgba(0,0,0,0.2); }
+
+        /* Mobile */
+        @media (max-width: 768px) {
+            .hamburger { display: flex; }
+            .nav-links { display: none; }
+            .nav-logo { font-size: 15px; max-width: 70%; }
+            .top-countdown { font-size: 12px; padding: 12px 15px; }
+            .top-countdown-number { font-size: 20px; }
+            .top-countdown-label { font-size: 9px; }
+            .top-countdown-timer { gap: 10px; }
+            .hero { padding: 80px 20px; min-height: 70vh; }
+            .hero h1 { font-size: 32px; margin-bottom: 20px; }
+            .hero p { font-size: 16px; margin-bottom: 30px; }
+            .hero-buttons { flex-direction: column; width: 100%; max-width: 280px; }
+            .btn { width: 100%; padding: 16px 30px; font-size: 16px; }
+            .info-section { padding: 60px 15px; }
+            .section-title { font-size: 32px; }
+            .section-subtitle { font-size: 16px; margin-bottom: 40px; }
+            .info-grid { grid-template-columns: 1fr; gap: 25px; margin-top: 30px; }
+            .info-card { padding: 35px 25px; }
+            .info-card:hover { transform: translateY(-5px); box-shadow: 0 15px 40px rgba(59, 130, 246, 0.2); }
+            .info-card h3 { font-size: 28px; }
+            .info-card p { font-size: 15px; }
+            .final-cta { padding: 60px 20px; }
+            .final-cta h2 { font-size: 28px; }
+            .final-cta p { font-size: 16px; }
+            .price-tag { font-size: 22px; padding: 12px 30px; }
+            .shape { display: none; }
+        }
+        @media (max-width: 480px) {
+            .nav-logo { font-size: 13px; }
+            .hero h1 { font-size: 26px; }
+            .section-title { font-size: 28px; }
+        }
+        @media (prefers-reduced-motion: reduce) {
+            * { animation: none !important; transition: none !important; }
+            .hero h1, .hero p, .hero-buttons, .info-card, .section-title, .section-subtitle { opacity: 1; transform: none; }
+        }
+    </style>
+</head>
+<body>
+    <div class="mobile-menu-overlay" id="menuOverlay"></div>
+    <div class="mobile-menu" id="mobileMenu">
+        <ul>
+            <li><a href="{{ url_for('index') }}" class="active">Home</a></li>
+            <li><a href="{{ url_for('about') }}">Meet The Team</a></li>
+            <li><a href="{{ url_for('rules') }}">Rules</a></li>
+            <li><a href="{{ url_for('timeline') }}">Timeline</a></li>
+        </ul>
+    </div>
+
+    <div class="top-countdown">
+        <div>Competition Starts In:</div>
+        <div class="top-countdown-timer">
+            <div class="top-countdown-item">
+                <div class="top-countdown-number" id="topDays">0</div>
+                <div class="top-countdown-label">Days</div>
+            </div>
+            <div class="top-countdown-item">
+                <div class="top-countdown-number" id="topHours">0</div>
+                <div class="top-countdown-label">Hours</div>
+            </div>
+            <div class="top-countdown-item">
+                <div class="top-countdown-number" id="topMinutes">0</div>
+                <div class="top-countdown-label">Min</div>
+            </div>
+            <div class="top-countdown-item">
+                <div class="top-countdown-number" id="topSeconds">0</div>
+                <div class="top-countdown-label">Sec</div>
+            </div>
+        </div>
+    </div>
+
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="{{ url_for('index') }}" class="nav-logo">Swiss National Investment Championship</a>
+            <ul class="nav-links">
+                <li><a href="{{ url_for('about') }}">Meet The Team</a></li>
+                <li><a href="{{ url_for('rules') }}">Rules</a></li>
+                <li><a href="{{ url_for('timeline') }}">Timeline</a></li>
+            </ul>
+            <div class="hamburger" id="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <div class="floating-shapes">
+            <div class="shape"></div>
+            <div class="shape"></div>
+            <div class="shape"></div>
+        </div>
+        <div class="hero-content">
+            <h1>The first national, student-led investment competition in Switzerland</h1>
+            <p>Join students from across Switzerland in this exciting investment challenge</p>
+            <div class="hero-buttons">
+                <a href="#participate" class="btn btn-primary"><span>Why Participate?</span></a>
+            </div>
+        </div>
+    </section>
+
+    <section id="participate" class="info-section">
+        <div class="info-container">
+            <h2 class="section-title">Why Participate?</h2>
+            <p class="section-subtitle">SNIC offers a unique opportunity to test your investment skills, network with peers, and gain real-world experience</p>
+
+            <div class="info-grid">
+                <div class="info-card">
+                    <h3>🎯 Real Experience</h3>
+                    <p>Apply investment theory to practice with simulated trading in real market conditions</p>
+                </div>
+                <div class="info-card">
+                    <h3>🤝 Network</h3>
+                    <p>Connect with talented students and industry professionals from across Switzerland</p>
+                </div>
+                <div class="info-card">
+                    <h3>🏆 Recognition</h3>
+                    <p>Showcase your skills and compete for prizes and recognition in the investment community</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="final-cta">
+        <div class="final-cta-content">
+            <h2>Ready to compete?</h2>
+            <p>Join Switzerland's premier student investment competition and put your skills to the test</p>
+            <div class="price-tag">29.99 CHF per team</div>
+            <p style="font-size: 16px; opacity: 0.85; margin-top: 30px;">This is an independent competition and is not affiliated with or endorsed by the Swiss government.</p>
+        </div>
+    </section>
+
+    <script>
+        const hamburger = document.getElementById('hamburger');
+        const mobileMenu = document.getElementById('mobileMenu');
+        const menuOverlay = document.getElementById('menuOverlay');
+
+        hamburger.addEventListener('click', () => {
+            hamburger.classList.toggle('active');
+            mobileMenu.classList.toggle('active');
+            menuOverlay.classList.toggle('active');
+        });
+
+        menuOverlay.addEventListener('click', () => {
+            hamburger.classList.remove('active');
+            mobileMenu.classList.remove('active');
+            menuOverlay.classList.remove('active');
+        });
+
+        window.addEventListener('scroll', () => {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 50) navbar.classList.add('scrolled');
+            else navbar.classList.remove('scrolled');
+        });
+
+        // Improved scroll animation - title and subtitle appear first, then cards
+        function animateOnScroll() {
+            const title = document.querySelector('.section-title');
+            const subtitle = document.querySelector('.section-subtitle');
+            const cards = document.querySelectorAll('.info-card');
+            
+            // Check title visibility
+            const titleRect = title.getBoundingClientRect();
+            const windowHeight = window.innerHeight;
+            
+            if (titleRect.top < windowHeight * 0.8) {
+                title.classList.add('visible');
+                subtitle.classList.add('visible');
+                
+                // Animate cards with stagger after title is visible
+                cards.forEach((card, index) => {
+                    setTimeout(() => {
+                        card.style.opacity = '1';
+                        card.style.transform = 'translateY(0)';
+                    }, 400 + (index * 200));
+                });
+            }
+        }
+
+        window.addEventListener('scroll', animateOnScroll);
+        window.addEventListener('load', animateOnScroll);
+
+        // Countdown Timer
+        const countdownDate = new Date('February 23, 2026 00:00:00').getTime();
+
+        function updateCountdown() {
+            const now = new Date().getTime();
+            const distance = countdownDate - now;
+
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            document.getElementById('topDays').textContent = days;
+            document.getElementById('topHours').textContent = hours;
+            document.getElementById('topMinutes').textContent = minutes;
+            document.getElementById('topSeconds').textContent = seconds;
+
+            if (distance < 0) {
+                document.querySelector('.top-countdown').innerHTML = '<div style="padding: 15px;">Competition has started!</div>';
+            }
+        }
+
+        updateCountdown();
+        setInterval(updateCountdown, 1000);
+
+        // Parallax effect for hero
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            const hero = document.querySelector('.hero');
+            if (hero && scrolled < hero.offsetHeight) {
+                hero.style.transform = `translateY(${scrolled * 0.5}px)`;
+            }
+        });
+    </script>
+</body>
+</html>
+"""
