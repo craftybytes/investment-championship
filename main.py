@@ -12,7 +12,7 @@ DEFAULT_STOCKS = ['AAPL', 'GOOGL', 'MSFT', 'TSLA', 'AMZN', 'NVDA', 'META', 'NFLX
 
 
 @app.route('/')
-def home():
+def index():
     return render_template('index.html')
 
 
