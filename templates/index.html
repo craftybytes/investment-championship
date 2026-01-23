@@ -4,7 +4,7 @@
     <title>Home - SNIC</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -20,14 +20,21 @@
             font-family: 'Inter', sans-serif;
             line-height: 1.6;
             color: #333;
+            overflow-x: hidden;
         }
 
         .navbar {
-            background: white;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 20px rgba(0,0,0,0.08);
             position: sticky;
             top: 0;
             z-index: 100;
+            transition: all 0.3s ease;
+        }
+
+        .navbar.scrolled {
+            box-shadow: 0 4px 30px rgba(0,0,0,0.15);
         }
 
         .nav-container {
@@ -37,13 +44,32 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            min-height: 69px;
         }
 
         .nav-logo {
             font-size: 18px;
-            font-weight: 600;
-            color: #333;
+            font-weight: 700;
+            color: #1e40af;
             text-decoration: none;
+            transition: all 0.3s ease;
+            position: relative;
+            white-space: nowrap;
+        }
+
+        .nav-logo::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #3b82f6, #8b5cf6);
+            transition: width 0.3s ease;
+        }
+
+        .nav-logo:hover::after {
+            width: 100%;
         }
 
         .nav-links {
@@ -55,45 +81,93 @@
         .nav-links a {
             color: #666;
             text-decoration: none;
-            font-weight: 500;
-            transition: color 0.3s;
+            font-weight: 600;
+            transition: all 0.3s ease;
             display: inline-block;
+            position: relative;
+            padding: 5px 0;
+        }
+
+        .nav-links a::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            width: 0;
+            height: 2px;
+            background: #3b82f6;
+            transition: all 0.3s ease;
+            transform: translateX(-50%);
         }
 
         .nav-links a:hover {
             color: #3b82f6;
+            transform: translateY(-2px);
+        }
+
+        .nav-links a:hover::before {
+            width: 100%;
         }
 
         .hero {
-            background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
+            background: linear-gradient(135deg, #1e40af 0%, #3b82f6 50%, #8b5cf6 100%);
             color: white;
             text-align: center;
-            padding: 120px 20px;
-            min-height: 70vh;
+            padding: 140px 20px;
+            min-height: 85vh;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg width="100" height="100" xmlns="http://www.w3.org/2000/svg"><circle cx="2" cy="2" r="1" fill="white" opacity="0.1"/></svg>');
+            animation: float 20s linear infinite;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(-100px); }
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
         .hero h1 {
-            font-size: 52px;
-            font-weight: 700;
-            margin-bottom: 25px;
+            font-size: 64px;
+            font-weight: 800;
+            margin-bottom: 30px;
             line-height: 1.2;
             max-width: 1000px;
             opacity: 0;
             transform: translateY(30px);
             animation: fadeInUp 0.8s ease-out 0.2s forwards;
+            text-shadow: 0 4px 20px rgba(0,0,0,0.2);
         }
 
         .hero p {
-            font-size: 22px;
-            margin-bottom: 40px;
+            font-size: 24px;
+            margin-bottom: 50px;
             opacity: 0;
             max-width: 700px;
             transform: translateY(30px);
             animation: fadeInUp 0.8s ease-out 0.4s forwards;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.1);
         }
 
         .hero-buttons {
@@ -113,100 +187,142 @@
             }
         }
 
-        .content-section {
-            max-width: 900px;
-            margin: 0 auto;
-            padding: 60px 20px;
+        .floating-shapes {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            pointer-events: none;
         }
 
-        .content-box {
+        .shape {
+            position: absolute;
+            opacity: 0.1;
+            animation: floatShape 20s infinite;
+        }
+
+        .shape:nth-child(1) {
+            width: 100px;
+            height: 100px;
             background: white;
-            padding: 40px;
-            border-radius: 12px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
-            margin-bottom: 30px;
-            opacity: 0;
-            transform: translateX(-50px);
-            scroll-margin-top: 80px;
+            border-radius: 50%;
+            top: 20%;
+            left: 10%;
+            animation-delay: 0s;
         }
 
-        .content-box.visible {
-            animation: slideInFade 0.6s ease-out forwards;
+        .shape:nth-child(2) {
+            width: 60px;
+            height: 60px;
+            background: white;
+            border-radius: 10px;
+            top: 60%;
+            left: 80%;
+            animation-delay: 5s;
         }
 
-        @keyframes slideInFade {
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
+        .shape:nth-child(3) {
+            width: 80px;
+            height: 80px;
+            background: white;
+            border-radius: 50%;
+            top: 40%;
+            right: 10%;
+            animation-delay: 10s;
         }
 
-        .content-box h2 {
-            font-size: 28px;
-            color: #1e40af;
-            margin-bottom: 20px;
-            padding-bottom: 15px;
-            border-bottom: 3px solid #3b82f6;
-        }
-
-        .content-box p {
-            line-height: 1.8;
-            color: #555;
-            margin-bottom: 15px;
-        }
-
-        .button-center {
-            text-align: center;
-            margin: 25px 0;
+        @keyframes floatShape {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            25% { transform: translate(30px, -30px) rotate(90deg); }
+            50% { transform: translate(-20px, -60px) rotate(180deg); }
+            75% { transform: translate(-40px, -30px) rotate(270deg); }
         }
 
         .btn {
             display: inline-block;
-            padding: 16px 36px;
-            border-radius: 6px;
+            padding: 20px 50px;
+            border-radius: 12px;
             text-decoration: none;
-            font-weight: 600;
-            font-size: 16px;
-            transition: transform 0.3s, box-shadow 0.3s;
+            font-weight: 700;
+            font-size: 18px;
+            transition: all 0.3s ease;
             background: #3b82f6;
             color: white;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s ease, height 0.6s ease;
+        }
+
+        .btn:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .btn span {
+            position: relative;
+            z-index: 1;
         }
 
         .btn-primary {
             background: white;
             color: #1e40af;
+            box-shadow: 0 6px 20px rgba(255, 255, 255, 0.4);
         }
 
         .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
-        }
-
-        .btn-secondary {
-            background: rgba(255, 255, 255, 0.2);
-            color: white;
-            border: 2px solid white;
-        }
-
-        .btn-secondary:hover {
-            background: rgba(255, 255, 255, 0.3);
-            transform: translateY(-2px);
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 12px 35px rgba(255, 255, 255, 0.5);
         }
 
         .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 16px rgba(0,0,0,0.15);
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+        }
+
+        .btn:active {
+            transform: translateY(-1px) scale(1.02);
         }
 
         .info-section {
-            padding: 80px 20px;
-            background: white;
-            scroll-margin-top: 100px;
+            padding: 100px 20px;
+            background: linear-gradient(180deg, #f8f9fa 0%, white 100%);
         }
 
         .info-container {
             max-width: 1200px;
             margin: 0 auto;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 52px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #1e40af, #3b82f6, #8b5cf6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 25px;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            font-size: 20px;
+            color: #666;
+            max-width: 700px;
+            margin: 0 auto 60px;
         }
 
         .info-grid {
@@ -217,64 +333,193 @@
         }
 
         .info-card {
-            padding: 30px;
-            background: #f8f9fa;
-            border-radius: 12px;
+            padding: 50px 40px;
+            background: white;
+            border-radius: 20px;
             text-align: center;
-            transition: transform 0.3s, box-shadow 0.3s;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
             opacity: 0;
             transform: translateY(50px);
         }
 
-        .info-card.visible {
-            animation: fadeInUp 0.6s ease-out forwards;
+        .info-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(59, 130, 246, 0.1) 0%, transparent 70%);
+            opacity: 0;
+            transition: opacity 0.5s ease;
         }
 
-        .info-card:nth-child(1).visible { animation-delay: 0.1s; }
-        .info-card:nth-child(2).visible { animation-delay: 0.2s; }
-        .info-card:nth-child(3).visible { animation-delay: 0.3s; }
+        .info-card:hover::before {
+            opacity: 1;
+            animation: rotate 3s linear infinite;
+        }
+
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
 
         .info-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transform: translateY(-15px) rotate(-2deg);
+            box-shadow: 0 25px 60px rgba(59, 130, 246, 0.3);
         }
 
         .info-card h3 {
-            font-size: 24px;
-            margin-bottom: 15px;
+            font-size: 32px;
+            margin-bottom: 20px;
             color: #1e40af;
+            transition: all 0.3s ease;
+            position: relative;
+            z-index: 1;
+        }
+
+        .info-card:hover h3 {
+            transform: scale(1.15);
         }
 
         .info-card p {
             color: #666;
             line-height: 1.8;
+            position: relative;
+            z-index: 1;
+            font-size: 16px;
         }
 
-        .section-title {
-            text-align: center;
-            font-size: 38px;
-            color: #333;
-            margin-bottom: 20px;
-            opacity: 0;
-            transform: translateY(30px);
+        .countdown-section {
+            padding: 100px 20px;
+            background: white;
         }
 
-        .section-title.visible {
-            animation: fadeInUp 0.6s ease-out forwards;
-        }
-
-        .section-subtitle {
-            text-align: center;
-            font-size: 18px;
-            color: #666;
-            max-width: 700px;
+        .countdown-wrapper {
+            max-width: 1000px;
             margin: 0 auto;
-            opacity: 0;
-            transform: translateY(30px);
+            text-align: center;
         }
 
-        .section-subtitle.visible {
-            animation: fadeInUp 0.6s ease-out 0.1s forwards;
+        .countdown-container {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin: 50px 0;
+            flex-wrap: wrap;
+        }
+
+        .countdown-item {
+            text-align: center;
+            background: linear-gradient(135deg, #f0f7ff 0%, #e0f0ff 100%);
+            padding: 40px 30px;
+            border-radius: 20px;
+            min-width: 140px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 8px 25px rgba(59, 130, 246, 0.15);
+        }
+
+        .countdown-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(59, 130, 246, 0.2), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .countdown-item:hover::before {
+            left: 100%;
+        }
+
+        .countdown-item:hover {
+            transform: translateY(-10px) scale(1.08);
+            box-shadow: 0 15px 40px rgba(59, 130, 246, 0.35);
+        }
+
+        .countdown-number {
+            font-size: 56px;
+            font-weight: 800;
+            color: #1e40af;
+            transition: all 0.3s ease;
+            line-height: 1;
+        }
+
+        .countdown-item:hover .countdown-number {
+            transform: scale(1.3);
+            color: #3b82f6;
+        }
+
+        .countdown-label {
+            font-size: 16px;
+            color: #666;
+            margin-top: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .final-cta {
+            padding: 120px 20px;
+            background: linear-gradient(135deg, #1e40af 0%, #3b82f6 50%, #8b5cf6 100%);
+            text-align: center;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .final-cta::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg width="100" height="100" xmlns="http://www.w3.org/2000/svg"><circle cx="2" cy="2" r="1" fill="white" opacity="0.05"/></svg>');
+            animation: float 25s linear infinite;
+        }
+
+        .final-cta-content {
+            position: relative;
+            z-index: 1;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .final-cta h2 {
+            font-size: 48px;
+            font-weight: 800;
+            margin-bottom: 25px;
+            text-shadow: 0 4px 20px rgba(0,0,0,0.2);
+        }
+
+        .final-cta p {
+            font-size: 22px;
+            margin-bottom: 40px;
+            opacity: 0.95;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .price-tag {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.15);
+            padding: 15px 40px;
+            border-radius: 50px;
+            font-size: 28px;
+            font-weight: 800;
+            margin: 30px 0;
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
         }
 
         @media (max-width: 768px) {
@@ -284,11 +529,11 @@
             }
 
             .hero {
-                padding: 80px 20px;
+                padding: 100px 20px;
             }
 
             .hero h1 {
-                font-size: 36px;
+                font-size: 40px;
             }
 
             .hero p {
@@ -306,7 +551,24 @@
             }
 
             .section-title {
-                font-size: 28px;
+                font-size: 36px;
+            }
+
+            .countdown-item {
+                min-width: 110px;
+                padding: 30px 20px;
+            }
+
+            .countdown-number {
+                font-size: 42px;
+            }
+
+            .final-cta h2 {
+                font-size: 36px;
+            }
+
+            .final-cta p {
+                font-size: 18px;
             }
         }
 
@@ -321,14 +583,14 @@
         }
 
         @media (prefers-reduced-motion: reduce) {
+            * {
+                animation: none !important;
+                transition: none !important;
+            }
             .hero h1,
             .hero p,
             .hero-buttons,
-            .info-card,
-            .section-title,
-            .section-subtitle,
-            .content-box {
-                animation: none;
+            .info-card {
                 opacity: 1;
                 transform: none;
             }
@@ -336,7 +598,7 @@
     </style>
 </head>
 <body>
-    <nav class="navbar">
+    <nav class="navbar" id="navbar">
         <div class="nav-container">
             <a href="#" class="nav-logo">Swiss National Investment Championship</a>
             <ul class="nav-links">
@@ -348,14 +610,21 @@
     </nav>
 
     <section class="hero">
-        <h1>The first national, student-led investment competition in Switzerland</h1>
-        <p>Join students from across Switzerland in this exciting investment challenge</p>
-        <div class="hero-buttons">
-            <a href="#purpose" class="btn btn-primary">Learn More</a>
+        <div class="floating-shapes">
+            <div class="shape"></div>
+            <div class="shape"></div>
+            <div class="shape"></div>
+        </div>
+        <div class="hero-content">
+            <h1>The first national, student-led investment competition in Switzerland</h1>
+            <p>Join students from across Switzerland in this exciting investment challenge</p>
+            <div class="hero-buttons">
+                <a href="#participate" class="btn btn-primary"><span>Why Participate?</span></a>
+            </div>
         </div>
     </section>
 
-    <section id="why-participate" class="info-section">
+    <section id="participate" class="info-section">
         <div class="info-container">
             <h2 class="section-title">Why Participate?</h2>
             <p class="section-subtitle">SNIC offers a unique opportunity to test your investment skills, network with peers, and gain real-world experience</p>
@@ -377,73 +646,72 @@
         </div>
     </section>
 
-    <div class="content-section">
-        <div id="purpose" class="content-box">
-            <h2>Purpose</h2>
-            <p>We are launching this investment competition to democratize access to financial literacy and investment experience across international schools in Switzerland. Too often, opportunities to develop real-world financial skills are limited to those with existing resources or connections. By hosting this competition, we're creating a level playing field where students can learn, compete, and demonstrate their analytical abilities regardless of their background.</p>
-            <p>Our team brings firsthand experience to this initiative. Having participated in similar investment competitions, we understand both the challenges participants face and the logistical requirements for running a successful event. This insider perspective allows us to:</p>
-            <p>Anticipate common questions and pain points, Design rules that are fair and engaging, Create a structure that balances education with competition, Provide meaningful mentorship throughout the process</p>
-        </div>
-
-        <div class="content-box">
-            <h2>Competition Starts In</h2>
-            <div id="countdown" style="display: flex; justify-content: center; gap: 20px; margin: 30px 0; flex-wrap: wrap;">
-                <div style="text-align: center; background: #f0f7ff; padding: 20px; border-radius: 8px; min-width: 100px;">
-                    <div id="days" style="font-size: 36px; font-weight: 700; color: #1e40af;">0</div>
-                    <div style="font-size: 14px; color: #666; margin-top: 5px;">Days</div>
+    <section class="countdown-section">
+        <div class="countdown-wrapper">
+            <h2 class="section-title">Competition Starts In</h2>
+            <p class="section-subtitle">February 23 – April 2, 2026 (5 weeks)</p>
+            <div class="countdown-container">
+                <div class="countdown-item">
+                    <div class="countdown-number" id="days">0</div>
+                    <div class="countdown-label">Days</div>
                 </div>
-                <div style="text-align: center; background: #f0f7ff; padding: 20px; border-radius: 8px; min-width: 100px;">
-                    <div id="hours" style="font-size: 36px; font-weight: 700; color: #1e40af;">0</div>
-                    <div style="font-size: 14px; color: #666; margin-top: 5px;">Hours</div>
+                <div class="countdown-item">
+                    <div class="countdown-number" id="hours">0</div>
+                    <div class="countdown-label">Hours</div>
                 </div>
-                <div style="text-align: center; background: #f0f7ff; padding: 20px; border-radius: 8px; min-width: 100px;">
-                    <div id="minutes" style="font-size: 36px; font-weight: 700; color: #1e40af;">0</div>
-                    <div style="font-size: 14px; color: #666; margin-top: 5px;">Minutes</div>
+                <div class="countdown-item">
+                    <div class="countdown-number" id="minutes">0</div>
+                    <div class="countdown-label">Minutes</div>
                 </div>
-                <div style="text-align: center; background: #f0f7ff; padding: 20px; border-radius: 8px; min-width: 100px;">
-                    <div id="seconds" style="font-size: 36px; font-weight: 700; color: #1e40af;">0</div>
-                    <div style="font-size: 14px; color: #666; margin-top: 5px;">Seconds</div>
+                <div class="countdown-item">
+                    <div class="countdown-number" id="seconds">0</div>
+                    <div class="countdown-label">Seconds</div>
                 </div>
             </div>
         </div>
+    </section>
 
-        <div class="content-box">
-            <h2>Timeline and Structure</h2>
-            <p><strong>Competition Period:</strong> February 23, 2026 – April 2, 2026</p>
-            <div class="button-center">
-                <a href="{{ url_for('timeline') }}" class="btn">View Full Timeline</a>
-            </div>
-            <p>This 5-week window is intentionally designed to provide substantial engagement time while remaining manageable alongside academic commitments. The extended timeframe allows participants to observe longer-term market trends, adjust their strategies thoughtfully, and develop a deeper understanding of investment dynamics - all while remaining accessible to students balancing IB, AP, or other rigorous academic programs.</p>
+    <section class="final-cta">
+        <div class="final-cta-content">
+            <h2>Ready to compete?</h2>
+            <p>Join Switzerland's premier student investment competition and put your skills to the test</p>
+            <div class="price-tag">29.99 CHF per team</div>
+            <p style="font-size: 16px; opacity: 0.85; margin-top: 30px;">This is an independent competition and is not affiliated with or endorsed by the Swiss government.</p>
         </div>
-
-        <div class="content-box">
-            <h2>Costs</h2>
-            <p><strong>Competition Entry Price (per team):</strong> 29.99.- (Swiss Francs)</p>
-        </div>
-
-        <div class="content-box">
-            <h2>Important Notice</h2>
-            <p>This is an independent competition and is not affiliated with or endorsed by the Swiss government.</p>
-        </div>
-    </div>
+    </section>
 
     <script>
-        const observerOptions = {
-            threshold: 0.15,
-            rootMargin: '0px 0px -50px 0px'
-        };
+        // Navbar scroll effect
+        window.addEventListener('scroll', () => {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
 
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
+        // Smooth scroll-based animations for info cards
+        function animateOnScroll() {
+            const cards = document.querySelectorAll('.info-card');
+
+            cards.forEach((card, index) => {
+                const rect = card.getBoundingClientRect();
+                const windowHeight = window.innerHeight;
+                const scrollProgress = (windowHeight - rect.top) / windowHeight;
+
+                if (scrollProgress > 0.2) {
+                    const delay = index * 100;
+                    setTimeout(() => {
+                        card.style.opacity = '1';
+                        card.style.transform = 'translateY(0)';
+                    }, delay);
                 }
             });
-        }, observerOptions);
+        }
 
-        document.querySelectorAll('.info-card, .section-title, .section-subtitle, .content-box').forEach(el => {
-            observer.observe(el);
-        });
+        window.addEventListener('scroll', animateOnScroll);
+        window.addEventListener('load', animateOnScroll);
 
         // Countdown Timer
         const countdownDate = new Date('February 23, 2026 00:00:00').getTime();
@@ -463,12 +731,21 @@
             document.getElementById('seconds').textContent = seconds;
 
             if (distance < 0) {
-                document.getElementById('countdown').innerHTML = '<p style="text-align: center; font-size: 24px; color: #1e40af; font-weight: 600;">Competition has started!</p>';
+                document.querySelector('.countdown-container').innerHTML = '<p style="text-align: center; font-size: 32px; color: #1e40af; font-weight: 800;">Competition has started!</p>';
             }
         }
 
         updateCountdown();
         setInterval(updateCountdown, 1000);
+
+        // Parallax effect for hero
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            const hero = document.querySelector('.hero');
+            if (hero && scrolled < hero.offsetHeight) {
+                hero.style.transform = `translateY(${scrolled * 0.5}px)`;
+            }
+        });
     </script>
 </body>
 </html>

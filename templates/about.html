@@ -2,10 +2,9 @@
 <html>
 <head>
     <title>Team - SNIC</title>
-    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='favicon.ico') }}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -13,19 +12,30 @@
             box-sizing: border-box;
         }
 
+        html {
+            scroll-behavior: smooth;
+        }
+
         body {
             font-family: 'Inter', sans-serif;
             line-height: 1.6;
             color: #333;
             background: #f8f9fa;
+            overflow-x: hidden;
         }
 
         .navbar {
-            background: white;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 20px rgba(0,0,0,0.08);
             position: sticky;
             top: 0;
             z-index: 100;
+            transition: all 0.3s ease;
+        }
+
+        .navbar.scrolled {
+            box-shadow: 0 4px 30px rgba(0,0,0,0.15);
         }
 
         .nav-container {
@@ -35,13 +45,31 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            min-height: 60px;
         }
 
         .nav-logo {
             font-size: 18px;
-            font-weight: 600;
-            color: #333;
+            font-weight: 700;
+            color: #1e40af;
             text-decoration: none;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-logo::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #3b82f6, #8b5cf6);
+            transition: width 0.3s ease;
+        }
+
+        .nav-logo:hover::after {
+            width: 100%;
         }
 
         .nav-links {
@@ -53,32 +81,76 @@
         .nav-links a {
             color: #666;
             text-decoration: none;
-            font-weight: 500;
-            transition: color 0.3s;
+            font-weight: 600;
+            transition: all 0.3s ease;
             display: inline-block;
+            position: relative;
+            padding: 5px 0;
+        }
+
+        .nav-links a::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            width: 0;
+            height: 2px;
+            background: #3b82f6;
+            transition: all 0.3s ease;
+            transform: translateX(-50%);
         }
 
         .nav-links a:hover,
         .nav-links a.active {
             color: #3b82f6;
+            transform: translateY(-2px);
+        }
+
+        .nav-links a:hover::before,
+        .nav-links a.active::before {
+            width: 100%;
         }
 
         .page-header {
-            background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
+            background: linear-gradient(135deg, #1e40af 0%, #3b82f6 50%, #8b5cf6 100%);
             color: white;
             text-align: center;
-            padding: 60px 20px;
+            padding: 80px 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .page-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg width="100" height="100" xmlns="http://www.w3.org/2000/svg"><circle cx="2" cy="2" r="1" fill="white" opacity="0.1"/></svg>');
+            animation: float 20s linear infinite;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(-100px); }
         }
 
         .page-header h1 {
-            font-size: 42px;
-            font-weight: 700;
+            font-size: 48px;
+            font-weight: 800;
             margin-bottom: 15px;
+            position: relative;
+            z-index: 1;
+            text-shadow: 0 4px 20px rgba(0,0,0,0.2);
         }
 
         .page-header p {
-            font-size: 18px;
+            font-size: 20px;
             opacity: 0.95;
+            position: relative;
+            z-index: 1;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.1);
         }
 
         .content-section {
@@ -90,11 +162,19 @@
         .content-box {
             background: white;
             padding: 40px;
-            border-radius: 12px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
-            margin-bottom: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+            margin-bottom: 60px;
             opacity: 0;
             transform: translateX(-50px);
+            transition: all 0.4s ease;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .content-box:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 20px 60px rgba(59, 130, 246, 0.2);
         }
 
         .content-box.visible {
@@ -109,11 +189,28 @@
         }
 
         .content-box h2 {
-            font-size: 28px;
+            font-size: 32px;
             color: #1e40af;
             margin-bottom: 20px;
             padding-bottom: 15px;
             border-bottom: 3px solid #3b82f6;
+            position: relative;
+            display: inline-block;
+        }
+
+        .content-box h2::after {
+            content: '';
+            position: absolute;
+            bottom: -3px;
+            left: 0;
+            width: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #8b5cf6, #3b82f6);
+            transition: width 0.5s ease;
+        }
+
+        .content-box:hover h2::after {
+            width: 100%;
         }
 
         .content-box p {
@@ -125,11 +222,17 @@
         .member-section {
             background: white;
             padding: 50px 40px;
-            border-radius: 12px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
-            margin-bottom: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+            margin-bottom: 60px;
             opacity: 0;
             transform: translateX(-50px);
+            transition: all 0.4s ease;
+        }
+
+        .member-section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 60px rgba(59, 130, 246, 0.2);
         }
 
         .member-section.visible {
@@ -138,8 +241,12 @@
 
         .member-section h2 {
             text-align: center;
-            font-size: 32px;
-            color: #1e40af;
+            font-size: 38px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #1e40af, #3b82f6, #8b5cf6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
             margin-bottom: 10px;
         }
 
@@ -147,6 +254,7 @@
             text-align: center;
             color: #666;
             margin-bottom: 40px;
+            font-size: 18px;
         }
 
         .search-bar-container {
@@ -158,19 +266,22 @@
             display: flex;
             gap: 0;
             background: #f8f9fa;
-            border-radius: 8px;
+            border-radius: 12px;
             overflow: hidden;
             border: 2px solid #e0e0e0;
-            transition: border-color 0.3s;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
         }
 
         .search-bar:focus-within {
             border-color: #3b82f6;
+            box-shadow: 0 4px 20px rgba(59, 130, 246, 0.3);
+            transform: translateY(-2px);
         }
 
         .search-bar input {
             flex: 1;
-            padding: 14px 20px;
+            padding: 16px 20px;
             font-family: 'Inter', sans-serif;
             font-size: 16px;
             border: none;
@@ -183,51 +294,91 @@
         }
 
         .search-bar button {
-            padding: 14px 28px;
+            padding: 16px 32px;
             background: #1e40af;
             color: white;
             border: none;
             font-family: 'Inter', sans-serif;
             font-size: 16px;
-            font-weight: 500;
+            font-weight: 600;
             cursor: pointer;
-            transition: background 0.3s;
+            transition: all 0.3s ease;
         }
 
         .search-bar button:hover {
             background: #1e3a8a;
+            transform: scale(1.05);
+        }
+
+        .search-bar button:active {
+            transform: scale(0.98);
         }
 
         .member-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 25px;
+            gap: 30px;
         }
 
         .member-card {
-            padding: 25px;
-            background: #f8f9fa;
-            border-radius: 10px;
-            transition: transform 0.3s, box-shadow 0.3s;
+            padding: 30px;
+            background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+            border-radius: 16px;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             border: 2px solid transparent;
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        .member-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(59, 130, 246, 0.1) 0%, transparent 70%);
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .member-card:hover::before {
+            opacity: 1;
+            animation: rotate 3s linear infinite;
+        }
+
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
 
         .member-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 20px rgba(59, 130, 246, 0.2);
+            transform: translateY(-10px) rotate(-2deg);
+            box-shadow: 0 20px 50px rgba(59, 130, 246, 0.3);
             border-color: #3b82f6;
         }
 
         .member-card h3 {
-            font-size: 19px;
+            font-size: 20px;
             color: #1e40af;
             margin-bottom: 10px;
+            transition: all 0.3s ease;
+            position: relative;
+            z-index: 1;
+        }
+
+        .member-card:hover h3 {
+            transform: scale(1.05);
+            color: #3b82f6;
         }
 
         .member-card p {
             margin: 6px 0;
             font-size: 14px;
             color: #666;
+            position: relative;
+            z-index: 1;
         }
 
         .member-role {
@@ -240,7 +391,8 @@
             text-align: center;
             padding: 40px;
             color: #666;
-            font-size: 16px;
+            font-size: 18px;
+            font-weight: 500;
         }
 
         .hidden {
@@ -254,15 +406,11 @@
             }
 
             .page-header h1 {
-                font-size: 32px;
+                font-size: 36px;
             }
 
-            .content-box {
+            .content-box, .member-section {
                 padding: 30px 25px;
-            }
-
-            .member-section {
-                padding: 40px 25px;
             }
 
             .member-grid {
@@ -281,9 +429,12 @@
         }
 
         @media (prefers-reduced-motion: reduce) {
+            * {
+                animation: none !important;
+                transition: none !important;
+            }
             .content-box,
             .member-section {
-                animation: none;
                 opacity: 1;
                 transform: none;
             }
@@ -291,9 +442,9 @@
     </style>
 </head>
 <body>
-    <nav class="navbar">
+    <nav class="navbar" id="navbar">
         <div class="nav-container">
-            <a href="{{ url_for('home') }}" class="nav-logo">Swiss National Investment Championship</a>
+            <a href="#" class="nav-logo">Swiss National Investment Championship</a>
             <ul class="nav-links">
                 <li><a href="{{ url_for('about') }}" class="active">Meet The Team</a></li>
                 <li><a href="{{ url_for('rules') }}">Rules</a></li>
@@ -394,6 +545,16 @@
     </div>
 
     <script>
+        // Navbar scroll effect
+        window.addEventListener('scroll', () => {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
         function searchMembers() {
             const input = document.getElementById('memberSearch').value.toLowerCase();
             const cards = document.querySelectorAll('.member-card');

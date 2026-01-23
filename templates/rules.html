@@ -2,10 +2,9 @@
 <html>
 <head>
     <title>Rules - SNIC</title>
-    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='favicon.ico') }}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -13,19 +12,30 @@
             box-sizing: border-box;
         }
 
+        html {
+            scroll-behavior: smooth;
+        }
+
         body {
             font-family: 'Inter', sans-serif;
             line-height: 1.6;
             color: #333;
             background: #f8f9fa;
+            overflow-x: hidden;
         }
 
         .navbar {
-            background: white;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 20px rgba(0,0,0,0.08);
             position: sticky;
             top: 0;
             z-index: 100;
+            transition: all 0.3s ease;
+        }
+
+        .navbar.scrolled {
+            box-shadow: 0 4px 30px rgba(0,0,0,0.15);
         }
 
         .nav-container {
@@ -35,13 +45,31 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            min-height: 60px;
         }
 
         .nav-logo {
             font-size: 18px;
-            font-weight: 600;
-            color: #333;
+            font-weight: 700;
+            color: #1e40af;
             text-decoration: none;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-logo::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #3b82f6, #8b5cf6);
+            transition: width 0.3s ease;
+        }
+
+        .nav-logo:hover::after {
+            width: 100%;
         }
 
         .nav-links {
@@ -53,27 +81,68 @@
         .nav-links a {
             color: #666;
             text-decoration: none;
-            font-weight: 500;
-            transition: color 0.3s;
+            font-weight: 600;
+            transition: all 0.3s ease;
             display: inline-block;
+            position: relative;
+            padding: 5px 0;
+        }
+
+        .nav-links a::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            width: 0;
+            height: 2px;
+            background: #3b82f6;
+            transition: all 0.3s ease;
+            transform: translateX(-50%);
         }
 
         .nav-links a:hover,
         .nav-links a.active {
             color: #3b82f6;
+            transform: translateY(-2px);
+        }
+
+        .nav-links a:hover::before,
+        .nav-links a.active::before {
+            width: 100%;
         }
 
         .page-header {
-            background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
+            background: linear-gradient(135deg, #1e40af 0%, #3b82f6 50%, #8b5cf6 100%);
             color: white;
             text-align: center;
-            padding: 60px 20px;
+            padding: 80px 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .page-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg width="100" height="100" xmlns="http://www.w3.org/2000/svg"><circle cx="2" cy="2" r="1" fill="white" opacity="0.1"/></svg>');
+            animation: float 20s linear infinite;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(-100px); }
         }
 
         .page-header h1 {
-            font-size: 42px;
-            font-weight: 700;
+            font-size: 48px;
+            font-weight: 800;
             margin-bottom: 15px;
+            position: relative;
+            z-index: 1;
+            text-shadow: 0 4px 20px rgba(0,0,0,0.2);
         }
 
         .page-header p {
@@ -81,6 +150,9 @@
             opacity: 0.95;
             max-width: 700px;
             margin: 0 auto;
+            position: relative;
+            z-index: 1;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.1);
         }
 
         .content-section {
@@ -91,12 +163,20 @@
 
         .rules-section {
             background: white;
-            padding: 35px;
-            border-radius: 12px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
-            margin-bottom: 25px;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+            margin-bottom: 60px;
             opacity: 0;
             transform: translateX(-50px);
+            transition: all 0.4s ease;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .rules-section:hover {
+            transform: translateY(-5px) scale(1.01);
+            box-shadow: 0 20px 60px rgba(59, 130, 246, 0.2);
         }
 
         .rules-section.visible {
@@ -111,11 +191,28 @@
         }
 
         .rules-section h2 {
-            font-size: 26px;
+            font-size: 30px;
             color: #1e40af;
             margin-bottom: 20px;
             padding-bottom: 12px;
             border-bottom: 3px solid #3b82f6;
+            position: relative;
+            display: inline-block;
+        }
+
+        .rules-section h2::after {
+            content: '';
+            position: absolute;
+            bottom: -3px;
+            left: 0;
+            width: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #8b5cf6, #3b82f6);
+            transition: width 0.5s ease;
+        }
+
+        .rules-section:hover h2::after {
+            width: 100%;
         }
 
         .rules-section h3 {
@@ -129,6 +226,14 @@
             margin-bottom: 15px;
             line-height: 1.8;
             color: #555;
+            transition: all 0.3s ease;
+            padding: 8px;
+            border-radius: 8px;
+        }
+
+        .rule-item:hover {
+            background: #f8f9fa;
+            transform: translateX(5px);
         }
 
         .rule-number {
@@ -138,12 +243,19 @@
 
         .severity-badge {
             display: inline-block;
-            padding: 4px 12px;
-            border-radius: 6px;
+            padding: 5px 14px;
+            border-radius: 8px;
             font-size: 11px;
             font-weight: 700;
             margin-left: 10px;
             text-transform: uppercase;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .severity-badge:hover {
+            transform: scale(1.1);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
         }
 
         .minor {
@@ -168,23 +280,61 @@
 
         .rules-section ul li {
             margin-bottom: 8px;
+            transition: all 0.3s ease;
+            padding: 4px;
+            border-radius: 4px;
+        }
+
+        .rules-section ul li:hover {
+            background: #f0f7ff;
+            transform: translateX(5px);
         }
 
         .btn {
             display: inline-block;
-            padding: 14px 32px;
+            padding: 18px 40px;
             background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
             color: white;
-            border-radius: 6px;
+            border-radius: 12px;
             text-decoration: none;
-            font-weight: 600;
+            font-weight: 700;
             font-size: 16px;
-            transition: transform 0.3s, box-shadow 0.3s;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s ease, height 0.6s ease;
+        }
+
+        .btn:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .btn span {
+            position: relative;
+            z-index: 1;
         }
 
         .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(59, 130, 246, 0.4);
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 8px 25px rgba(59, 130, 246, 0.5);
+        }
+
+        .btn:active {
+            transform: translateY(-1px) scale(1.02);
         }
 
         .button-center {
@@ -194,10 +344,13 @@
 
         .end-note {
             text-align: center;
-            font-weight: 600;
-            font-size: 20px;
-            color: #1e40af;
-            margin: 50px 0 40px;
+            font-weight: 700;
+            font-size: 24px;
+            background: linear-gradient(135deg, #1e40af, #3b82f6, #8b5cf6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin: 60px 0 40px;
         }
 
         @media (max-width: 768px) {
@@ -207,11 +360,11 @@
             }
 
             .page-header h1 {
-                font-size: 32px;
+                font-size: 36px;
             }
 
             .rules-section {
-                padding: 25px 20px;
+                padding: 30px 25px;
             }
         }
 
@@ -226,8 +379,11 @@
         }
 
         @media (prefers-reduced-motion: reduce) {
+            * {
+                animation: none !important;
+                transition: none !important;
+            }
             .rules-section {
-                animation: none;
                 opacity: 1;
                 transform: none;
             }
@@ -235,9 +391,9 @@
     </style>
 </head>
 <body>
-    <nav class="navbar">
+    <nav class="navbar" id="navbar">
         <div class="nav-container">
-            <a href="{{ url_for('home') }}" class="nav-logo">Swiss National Investment Championship</a>
+            <a href="#" class="nav-logo">Swiss National Investment Championship</a>
             <ul class="nav-links">
                 <li><a href="{{ url_for('about') }}">Meet The Team</a></li>
                 <li><a href="{{ url_for('rules') }}" class="active">Rules</a></li>
@@ -412,11 +568,21 @@
             <a href="https://docs.google.com/document/d/1wIaWpWQPKlZ6GO7ZxNWX6RN4Ki0A1O-nCy8kMJYhqCc/edit?tab=t.0#heading=h.o6mb3un58ge3"
                 class="btn"
                 target="_blank"
-                rel="noopener noreferrer">View Official Rules Document</a>
+                rel="noopener noreferrer"><span>View Official Rules Document</span></a>
         </div>
     </div>
 
     <script>
+        // Navbar scroll effect
+        window.addEventListener('scroll', () => {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
         const observerOptions = {
             threshold: 0.15,
             rootMargin: '0px 0px -50px 0px'
