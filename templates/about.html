@@ -154,9 +154,18 @@
         }
 
         .content-section {
-            max-width: 900px;
+            max-width: 1200px;
             margin: 0 auto;
             padding: 60px 20px;
+        }
+
+        /* Two-column layout for mission section */
+        .mission-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            margin-bottom: 60px;
+            align-items: center;
         }
 
         .content-box {
@@ -164,7 +173,6 @@
             padding: 40px;
             border-radius: 20px;
             box-shadow: 0 10px 40px rgba(0,0,0,0.08);
-            margin-bottom: 60px;
             opacity: 0;
             transform: translateX(-50px);
             transition: all 0.4s ease;
@@ -219,6 +227,50 @@
             margin-bottom: 15px;
         }
 
+        .image-container {
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.12);
+            transition: all 0.4s ease;
+            opacity: 0;
+            transform: translateX(50px);
+            height: 400px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .image-container.visible {
+            animation: slideInFadeRight 0.6s ease-out forwards;
+        }
+
+        @keyframes slideInFadeRight {
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .image-container:hover {
+            transform: scale(1.05) rotate(2deg);
+            box-shadow: 0 20px 60px rgba(59, 130, 246, 0.3);
+        }
+
+        .image-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* What We Do section with image on left */
+        .what-we-do-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            margin-bottom: 60px;
+            align-items: center;
+        }
+
         .member-section {
             background: white;
             padding: 50px 40px;
@@ -226,7 +278,7 @@
             box-shadow: 0 10px 40px rgba(0,0,0,0.08);
             margin-bottom: 60px;
             opacity: 0;
-            transform: translateX(-50px);
+            transform: translateY(50px);
             transition: all 0.4s ease;
         }
 
@@ -236,7 +288,14 @@
         }
 
         .member-section.visible {
-            animation: slideInFade 0.6s ease-out forwards;
+            animation: slideInFadeUp 0.6s ease-out forwards;
+        }
+
+        @keyframes slideInFadeUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .member-section h2 {
@@ -399,6 +458,27 @@
             display: none;
         }
 
+        /* Contact section with image */
+        .contact-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            margin-top: 60px;
+            align-items: center;
+        }
+
+        @media (max-width: 968px) {
+            .mission-layout,
+            .what-we-do-layout,
+            .contact-layout {
+                grid-template-columns: 1fr;
+            }
+
+            .image-container {
+                height: 300px;
+            }
+        }
+
         @media (max-width: 768px) {
             .nav-links {
                 gap: 15px;
@@ -434,7 +514,8 @@
                 transition: none !important;
             }
             .content-box,
-            .member-section {
+            .member-section,
+            .image-container {
                 opacity: 1;
                 transform: none;
             }
@@ -459,18 +540,31 @@
     </div>
 
     <div class="content-section">
-        <div class="content-box">
-            <h2>Our Mission</h2>
-            <p>As a team, we are launching a 5-week Investment Championship designed to strengthen critical thinking, improve financial literacy, and encourage collaborative learning, all while having fun in a competitive, engaging environment.</p>
+        <!-- Mission Section with Image -->
+        <div class="mission-layout">
+            <div class="content-box">
+                <h2>Our Mission</h2>
+                <p>As a team, we are launching a 5-week Investment Championship designed to strengthen critical thinking, improve financial literacy, and encourage collaborative learning, all while having fun in a competitive, engaging environment.</p>
+            </div>
+            <div class="image-container">
+                <img src="{{ url_for('static', filename='imgs/IMG2.jpeg') }}" alt="SNIC Mission">
+            </div>
         </div>
 
-        <div class="content-box">
-            <h2>What We Do</h2>
-            <p>SNIC organizes annual investment simulation championships where participants manage virtual portfolios and compete using real-time market data.</p>
-            <p>The platform replicates real-world financial markets, offering a realistic, risk-free trading experience. Participants test strategies, learn from outcomes, and refine decision-making skills without risking real capital.</p>
-            <p>The championship provides hands-on exposure to stocks, bonds, ETFs, and other asset classes. Participants develop critical skills in market analysis, risk management, diversification, and strategic thinking.</p>
+        <!-- What We Do Section with Image on Left -->
+        <div class="what-we-do-layout">
+            <div class="image-container">
+                <img src="{{ url_for('static', filename='imgs/IMG3.jpeg') }}" alt="What We Do">
+            </div>
+            <div class="content-box">
+                <h2>What We Do</h2>
+                <p>SNIC organizes annual investment simulation championships where participants manage virtual portfolios and compete using real-time market data.</p>
+                <p>The platform replicates real-world financial markets, offering a realistic, risk-free trading experience. Participants test strategies, learn from outcomes, and refine decision-making skills without risking real capital.</p>
+                <p>The championship provides hands-on exposure to stocks, bonds, ETFs, and other asset classes. Participants develop critical skills in market analysis, risk management, diversification, and strategic thinking.</p>
+            </div>
         </div>
 
+        <!-- Member Section -->
         <div class="member-section">
             <h2>Our Committee</h2>
             <p>Meet the team organizing SNIC 2026</p>
@@ -537,10 +631,16 @@
             </div>
         </div>
 
-        <div class="content-box">
-            <h2>Contact Us</h2>
-            <p style="margin-bottom: 10px;"><strong>Email:</strong> mbruce@isl.ch, InvClubEmail@domain.com</p>
-            <p style="margin-top: 20px;">For competition inquiries, or general questions, please don't hesitate to reach out. We're here to help and look forward to hearing from you. Good luck!</p>
+        <!-- Contact Section with Image -->
+        <div class="contact-layout">
+            <div class="content-box">
+                <h2>Contact Us</h2>
+                <p style="margin-bottom: 10px;"><strong>Email:</strong> mbruce@isl.ch, InvClubEmail@domain.com</p>
+                <p style="margin-top: 20px;">For competition inquiries, or general questions, please don't hesitate to reach out. We're here to help and look forward to hearing from you. Good luck!</p>
+            </div>
+            <div class="image-container">
+                <img src="{{ url_for('static', filename='imgs/IMG1.jpeg') }}" alt="Contact Us">
+            </div>
         </div>
     </div>
 
@@ -593,7 +693,7 @@
             });
         }, observerOptions);
 
-        document.querySelectorAll('.content-box, .member-section').forEach(el => {
+        document.querySelectorAll('.content-box, .member-section, .image-container').forEach(el => {
             observer.observe(el);
         });
     </script>
