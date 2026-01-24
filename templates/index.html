@@ -129,10 +129,10 @@
     <div class="mobile-menu-overlay" id="menuOverlay"></div>
     <div class="mobile-menu" id="mobileMenu">
         <ul>
-            <li><a href="#" class="active">Home</a></li>
-            <li><a href="#">Meet The Team</a></li>
-            <li><a href="#">Rules</a></li>
-            <li><a href="#">Timeline</a></li>
+            <li><a href="{{ url_for('index') }}" class="active">Home</a></li>
+            <li><a href="{{ url_for('about') }}">Meet The Team</a></li>
+            <li><a href="{{ url_for('rules') }}">Rules</a></li>
+            <li><a href="{{ url_for('timeline') }}">Timeline</a></li>
         </ul>
     </div>
 
@@ -160,11 +160,11 @@
 
     <nav class="navbar" id="navbar">
         <div class="nav-container">
-            <a href="#" class="nav-logo">Swiss National Investment Championship</a>
+            <a href="{{ url_for('index') }}" class="nav-logo active">Swiss National Investment Championship</a>
             <ul class="nav-links">
-                <li><a href="#">Meet The Team</a></li>
-                <li><a href="#">Rules</a></li>
-                <li><a href="#">Timeline</a></li>
+                <li><a href="{{ url_for('about') }}">Meet The Team</a></li>
+                <li><a href="{{ url_for('rules') }}">Rules</a></li>
+                <li><a href="{{ url_for('timeline') }}">Timeline</a></li>
             </ul>
             <div class="hamburger" id="hamburger">
                 <span></span>
