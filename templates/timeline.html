@@ -3,6 +3,7 @@
 <head>
     <title>Timeline - SNIC</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='imgs/LOGO_RED.png') }}">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -27,9 +28,12 @@
         .navbar { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); box-shadow: 0 2px 20px rgba(0,0,0,0.08); position: sticky; top: 0; z-index: 100; transition: all 0.3s ease; }
         .navbar.scrolled { box-shadow: 0 4px 30px rgba(0,0,0,0.15); }
         .nav-container { max-width: 1200px; margin: 0 auto; padding: 20px; display: flex; justify-content: space-between; align-items: center; min-height: 69px; }
-        .nav-logo { font-size: 18px; font-weight: 700; color: #1e40af; text-decoration: none; transition: all 0.3s ease; position: relative; white-space: nowrap; }
+        .nav-logo-container { display: flex; align-items: center; gap: 15px; text-decoration: none; }
+        .nav-logo-img { height: 40px; width: auto; transition: all 0.3s ease; }
+        .nav-logo-img:hover { transform: scale(1.05); }
+        .nav-logo { font-size: 18px; font-weight: 700; color: #1e40af; transition: all 0.3s ease; position: relative; white-space: nowrap; }
         .nav-logo::after { content: ''; position: absolute; bottom: -5px; left: 0; width: 0; height: 3px; background: linear-gradient(90deg, #3b82f6, #8b5cf6); transition: width 0.3s ease; }
-        .nav-logo:hover::after { width: 100%; }
+        .nav-logo-container:hover .nav-logo::after { width: 100%; }
         .nav-links { display: flex; list-style: none; gap: 30px; }
         .nav-links a { color: #666; text-decoration: none; font-weight: 600; transition: all 0.3s ease; display: inline-block; position: relative; padding: 5px 0; }
         .nav-links a::before { content: ''; position: absolute; bottom: 0; left: 50%; width: 0; height: 2px; background: #3b82f6; transition: all 0.3s ease; transform: translateX(-50%); }
@@ -68,7 +72,8 @@
         @media (max-width: 768px) {
             .hamburger { display: flex; }
             .nav-links { display: none; }
-            .nav-logo { font-size: 15px; max-width: 70%; }
+            .nav-logo { font-size: 15px; max-width: 50%; }
+            .nav-logo-img { height: 30px; }
             .page-header { padding: 50px 20px; }
             .page-header h1 { font-size: 28px; }
             .page-header p { font-size: 16px; }
@@ -99,7 +104,10 @@
 
     <nav class="navbar" id="navbar">
         <div class="nav-container">
-            <a href="{{ url_for('index') }}" class="nav-logo">Swiss National Investment Championship</a>
+            <a href="{{ url_for('index') }}" class="nav-logo-container">
+                <img src="{{ url_for('static', filename='imgs/LOGO_RED.png') }}" alt="SNIC Logo" class="nav-logo-img">
+                <span class="nav-logo">Swiss National Investment Championship</span>
+            </a>
             <ul class="nav-links">
                 <li><a href="{{ url_for('about') }}">Meet The Team</a></li>
                 <li><a href="{{ url_for('rules') }}">Rules</a></li>
