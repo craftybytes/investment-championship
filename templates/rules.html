@@ -2,395 +2,99 @@
 <html>
 <head>
     <title>Rules - SNIC</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        html {
-            scroll-behavior: smooth;
-        }
-
-        body {
-            font-family: 'Inter', sans-serif;
-            line-height: 1.6;
-            color: #333;
-            background: #f8f9fa;
-            overflow-x: hidden;
-        }
-
-        .navbar {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            box-shadow: 0 2px 20px rgba(0,0,0,0.08);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            transition: all 0.3s ease;
-        }
-
-        .navbar.scrolled {
-            box-shadow: 0 4px 30px rgba(0,0,0,0.15);
-        }
-
-        .nav-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            min-height: 60px;
-        }
-
-        .nav-logo {
-            font-size: 18px;
-            font-weight: 700;
-            color: #1e40af;
-            text-decoration: none;
-            transition: all 0.3s ease;
-            position: relative;
-        }
-
-        .nav-logo::after {
-            content: '';
-            position: absolute;
-            bottom: -5px;
-            left: 0;
-            width: 0;
-            height: 3px;
-            background: linear-gradient(90deg, #3b82f6, #8b5cf6);
-            transition: width 0.3s ease;
-        }
-
-        .nav-logo:hover::after {
-            width: 100%;
-        }
-
-        .nav-links {
-            display: flex;
-            list-style: none;
-            gap: 30px;
-        }
-
-        .nav-links a {
-            color: #666;
-            text-decoration: none;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            display: inline-block;
-            position: relative;
-            padding: 5px 0;
-        }
-
-        .nav-links a::before {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 50%;
-            width: 0;
-            height: 2px;
-            background: #3b82f6;
-            transition: all 0.3s ease;
-            transform: translateX(-50%);
-        }
-
-        .nav-links a:hover,
-        .nav-links a.active {
-            color: #3b82f6;
-            transform: translateY(-2px);
-        }
-
-        .nav-links a:hover::before,
-        .nav-links a.active::before {
-            width: 100%;
-        }
-
-        .page-header {
-            background: linear-gradient(135deg, #1e40af 0%, #3b82f6 50%, #8b5cf6 100%);
-            color: white;
-            text-align: center;
-            padding: 80px 20px;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .page-header::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: url('data:image/svg+xml,<svg width="100" height="100" xmlns="http://www.w3.org/2000/svg"><circle cx="2" cy="2" r="1" fill="white" opacity="0.1"/></svg>');
-            animation: float 20s linear infinite;
-        }
-
-        @keyframes float {
-            0% { transform: translateY(0); }
-            100% { transform: translateY(-100px); }
-        }
-
-        .page-header h1 {
-            font-size: 48px;
-            font-weight: 800;
-            margin-bottom: 15px;
-            position: relative;
-            z-index: 1;
-            text-shadow: 0 4px 20px rgba(0,0,0,0.2);
-        }
-
-        .page-header p {
-            font-size: 18px;
-            opacity: 0.95;
-            max-width: 700px;
-            margin: 0 auto;
-            position: relative;
-            z-index: 1;
-            text-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        }
-
-        .content-section {
-            max-width: 900px;
-            margin: 0 auto;
-            padding: 60px 20px;
-        }
-
-        .rules-section {
-            background: white;
-            padding: 40px;
-            border-radius: 20px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.08);
-            margin-bottom: 60px;
-            opacity: 0;
-            transform: translateX(-50px);
-            transition: all 0.4s ease;
-            cursor: pointer;
-            position: relative;
-        }
-
-        .rules-section:hover {
-            transform: translateY(-5px) scale(1.01);
-            box-shadow: 0 20px 60px rgba(59, 130, 246, 0.2);
-        }
-
-        .rules-section.visible {
-            animation: slideInFade 0.6s ease-out forwards;
-        }
-
-        @keyframes slideInFade {
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
-        }
-
-        .rules-section h2 {
-            font-size: 30px;
-            color: #1e40af;
-            margin-bottom: 20px;
-            padding-bottom: 12px;
-            border-bottom: 3px solid #3b82f6;
-            position: relative;
-            display: inline-block;
-        }
-
-        .rules-section h2::after {
-            content: '';
-            position: absolute;
-            bottom: -3px;
-            left: 0;
-            width: 0;
-            height: 3px;
-            background: linear-gradient(90deg, #8b5cf6, #3b82f6);
-            transition: width 0.5s ease;
-        }
-
-        .rules-section:hover h2::after {
-            width: 100%;
-        }
-
-        .rules-section h3 {
-            font-size: 20px;
-            color: #1e40af;
-            margin-top: 25px;
-            margin-bottom: 12px;
-        }
-
-        .rule-item {
-            margin-bottom: 15px;
-            line-height: 1.8;
-            color: #555;
-            transition: all 0.3s ease;
-            padding: 8px;
-            border-radius: 8px;
-        }
-
-        .rule-item:hover {
-            background: #f8f9fa;
-            transform: translateX(5px);
-        }
-
-        .rule-number {
-            font-weight: 700;
-            color: #1e40af;
-        }
-
-        .severity-badge {
-            display: inline-block;
-            padding: 5px 14px;
-            border-radius: 8px;
-            font-size: 11px;
-            font-weight: 700;
-            margin-left: 10px;
-            text-transform: uppercase;
-            transition: all 0.3s ease;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-        }
-
-        .severity-badge:hover {
-            transform: scale(1.1);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-        }
-
-        .minor {
-            background-color: #fef3c7;
-            color: #92400e;
-        }
-
-        .major {
-            background-color: #fecaca;
-            color: #991b1b;
-        }
-
-        .critical {
-            background-color: #fca5a5;
-            color: #7f1d1d;
-        }
-
-        .rules-section ul {
-            margin: 15px 0 15px 25px;
-            color: #555;
-        }
-
-        .rules-section ul li {
-            margin-bottom: 8px;
-            transition: all 0.3s ease;
-            padding: 4px;
-            border-radius: 4px;
-        }
-
-        .rules-section ul li:hover {
-            background: #f0f7ff;
-            transform: translateX(5px);
-        }
-
-        .btn {
-            display: inline-block;
-            padding: 18px 40px;
-            background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
-            color: white;
-            border-radius: 12px;
-            text-decoration: none;
-            font-weight: 700;
-            font-size: 16px;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .btn::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 0;
-            height: 0;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.3);
-            transform: translate(-50%, -50%);
-            transition: width 0.6s ease, height 0.6s ease;
-        }
-
-        .btn:hover::before {
-            width: 300px;
-            height: 300px;
-        }
-
-        .btn span {
-            position: relative;
-            z-index: 1;
-        }
-
-        .btn:hover {
-            transform: translateY(-3px) scale(1.05);
-            box-shadow: 0 8px 25px rgba(59, 130, 246, 0.5);
-        }
-
-        .btn:active {
-            transform: translateY(-1px) scale(1.02);
-        }
-
-        .button-center {
-            text-align: center;
-            margin: 40px 0;
-        }
-
-        .end-note {
-            text-align: center;
-            font-weight: 700;
-            font-size: 24px;
-            background: linear-gradient(135deg, #1e40af, #3b82f6, #8b5cf6);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            margin: 60px 0 40px;
-        }
-
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body { font-family: 'Inter', sans-serif; line-height: 1.6; color: #333; background: #f8f9fa; overflow-x: hidden; }
+        .hamburger { display: none; flex-direction: column; cursor: pointer; z-index: 101; }
+        .hamburger span { width: 25px; height: 3px; background: #1e40af; margin: 3px 0; transition: all 0.3s ease; border-radius: 3px; }
+        .hamburger.active span:nth-child(1) { transform: rotate(45deg) translate(7px, 7px); }
+        .hamburger.active span:nth-child(2) { opacity: 0; }
+        .hamburger.active span:nth-child(3) { transform: rotate(-45deg) translate(7px, -7px); }
+        .mobile-menu { position: fixed; top: 0; right: -100%; width: 70%; max-width: 300px; height: 100vh; background: white; box-shadow: -2px 0 10px rgba(0,0,0,0.1); z-index: 100; transition: right 0.3s ease; padding: 80px 30px 30px; }
+        .mobile-menu.active { right: 0; }
+        .mobile-menu-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background: rgba(0,0,0,0.5); z-index: 99; opacity: 0; visibility: hidden; transition: all 0.3s ease; }
+        .mobile-menu-overlay.active { opacity: 1; visibility: visible; }
+        .mobile-menu ul { list-style: none; }
+        .mobile-menu ul li { margin-bottom: 25px; }
+        .mobile-menu ul li a { color: #333; text-decoration: none; font-size: 18px; font-weight: 600; display: block; padding: 10px 0; transition: all 0.3s ease; }
+        .mobile-menu ul li a:hover, .mobile-menu ul li a.active { color: #3b82f6; transform: translateX(10px); }
+        .navbar { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); box-shadow: 0 2px 20px rgba(0,0,0,0.08); position: sticky; top: 0; z-index: 100; transition: all 0.3s ease; }
+        .navbar.scrolled { box-shadow: 0 4px 30px rgba(0,0,0,0.15); }
+        .nav-container { max-width: 1200px; margin: 0 auto; padding: 20px; display: flex; justify-content: space-between; align-items: center; min-height: 60px; }
+        .nav-logo { font-size: 18px; font-weight: 700; color: #1e40af; text-decoration: none; transition: all 0.3s ease; position: relative; white-space: nowrap; }
+        .nav-logo::after { content: ''; position: absolute; bottom: -5px; left: 0; width: 0; height: 3px; background: linear-gradient(90deg, #3b82f6, #8b5cf6); transition: width 0.3s ease; }
+        .nav-logo:hover::after { width: 100%; }
+        .nav-links { display: flex; list-style: none; gap: 30px; }
+        .nav-links a { color: #666; text-decoration: none; font-weight: 600; transition: all 0.3s ease; display: inline-block; position: relative; padding: 5px 0; }
+        .nav-links a::before { content: ''; position: absolute; bottom: 0; left: 50%; width: 0; height: 2px; background: #3b82f6; transition: all 0.3s ease; transform: translateX(-50%); }
+        .nav-links a:hover, .nav-links a.active { color: #3b82f6; transform: translateY(-2px); }
+        .nav-links a:hover::before, .nav-links a.active::before { width: 100%; }
+        .page-header { background: linear-gradient(135deg, #1e40af 0%, #3b82f6 50%, #8b5cf6 100%); color: white; text-align: center; padding: 80px 20px; position: relative; overflow: hidden; }
+        .page-header::before { content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: url('data:image/svg+xml,<svg width="100" height="100" xmlns="http://www.w3.org/2000/svg"><circle cx="2" cy="2" r="1" fill="white" opacity="0.1"/></svg>'); animation: float 20s linear infinite; }
+        @keyframes float { 0% { transform: translateY(0); } 100% { transform: translateY(-100px); } }
+        .page-header h1 { font-size: 48px; font-weight: 800; margin-bottom: 15px; position: relative; z-index: 1; text-shadow: 0 4px 20px rgba(0,0,0,0.2); }
+        .page-header p { font-size: 18px; opacity: 0.95; max-width: 700px; margin: 0 auto; position: relative; z-index: 1; text-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        .content-section { max-width: 900px; margin: 0 auto; padding: 60px 20px; }
+        .rules-section { background: white; padding: 40px; border-radius: 20px; box-shadow: 0 10px 40px rgba(0,0,0,0.08); margin-bottom: 60px; opacity: 0; transform: translateX(-50px); transition: all 0.4s ease; cursor: pointer; position: relative; }
+        .rules-section:hover { transform: translateY(-5px) scale(1.01); box-shadow: 0 20px 60px rgba(59, 130, 246, 0.2); }
+        .rules-section.visible { animation: slideInFade 0.6s ease-out forwards; }
+        @keyframes slideInFade { to { opacity: 1; transform: translateX(0); } }
+        .rules-section h2 { font-size: 30px; color: #1e40af; margin-bottom: 20px; padding-bottom: 12px; border-bottom: 3px solid #3b82f6; position: relative; display: inline-block; }
+        .rules-section h2::after { content: ''; position: absolute; bottom: -3px; left: 0; width: 0; height: 3px; background: linear-gradient(90deg, #8b5cf6, #3b82f6); transition: width 0.5s ease; }
+        .rules-section:hover h2::after { width: 100%; }
+        .rules-section h3 { font-size: 20px; color: #1e40af; margin-top: 25px; margin-bottom: 12px; }
+        .rule-item { margin-bottom: 15px; line-height: 1.8; color: #555; transition: all 0.3s ease; padding: 8px; border-radius: 8px; }
+        .rule-item:hover { background: #f8f9fa; transform: translateX(5px); }
+        .rule-number { font-weight: 700; color: #1e40af; }
+        .severity-badge { display: inline-block; padding: 5px 14px; border-radius: 8px; font-size: 11px; font-weight: 700; margin-left: 10px; text-transform: uppercase; transition: all 0.3s ease; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+        .severity-badge:hover { transform: scale(1.1); box-shadow: 0 4px 12px rgba(0,0,0,0.2); }
+        .minor { background-color: #fef3c7; color: #92400e; }
+        .major { background-color: #fecaca; color: #991b1b; }
+        .critical { background-color: #fca5a5; color: #7f1d1d; }
+        .rules-section ul { margin: 15px 0 15px 25px; color: #555; }
+        .rules-section ul li { margin-bottom: 8px; transition: all 0.3s ease; padding: 4px; border-radius: 4px; }
+        .rules-section ul li:hover { background: #f0f7ff; transform: translateX(5px); }
+        .btn { display: inline-block; padding: 18px 40px; background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%); color: white; border-radius: 12px; text-decoration: none; font-weight: 700; font-size: 16px; transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4); position: relative; overflow: hidden; }
+        .btn::before { content: ''; position: absolute; top: 50%; left: 50%; width: 0; height: 0; border-radius: 50%; background: rgba(255, 255, 255, 0.3); transform: translate(-50%, -50%); transition: width 0.6s ease, height 0.6s ease; }
+        .btn:hover::before { width: 300px; height: 300px; }
+        .btn span { position: relative; z-index: 1; }
+        .btn:hover { transform: translateY(-3px) scale(1.05); box-shadow: 0 8px 25px rgba(59, 130, 246, 0.5); }
+        .btn:active { transform: translateY(-1px) scale(1.02); }
+        .button-center { text-align: center; margin: 40px 0; }
+        .end-note { text-align: center; font-weight: 700; font-size: 24px; background: linear-gradient(135deg, #1e40af, #3b82f6, #8b5cf6); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin: 60px 0 40px; }
         @media (max-width: 768px) {
-            .nav-links {
-                gap: 15px;
-                font-size: 14px;
-            }
-
-            .page-header h1 {
-                font-size: 36px;
-            }
-
-            .rules-section {
-                padding: 30px 25px;
-            }
+            .hamburger { display: flex; }
+            .nav-links { display: none; }
+            .nav-logo { font-size: 15px; max-width: 70%; }
+            .page-header { padding: 50px 20px; }
+            .page-header h1 { font-size: 28px; }
+            .page-header p { font-size: 16px; }
+            .content-section { padding: 30px 15px; }
+            .rules-section { padding: 25px 20px; margin-bottom: 30px; }
+            .rules-section h2 { font-size: 22px; }
+            .rules-section h3 { font-size: 18px; }
+            .rule-item { font-size: 14px; }
+            .severity-badge { font-size: 9px; padding: 4px 10px; margin-left: 5px; }
+            .btn { padding: 14px 28px; font-size: 14px; }
+            .end-note { font-size: 20px; }
         }
-
-        @media (max-width: 480px) {
-            .nav-logo {
-                font-size: 14px;
-            }
-
-            .nav-links {
-                display: none;
-            }
-        }
-
-        @media (prefers-reduced-motion: reduce) {
-            * {
-                animation: none !important;
-                transition: none !important;
-            }
-            .rules-section {
-                opacity: 1;
-                transform: none;
-            }
-        }
+        @media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } .rules-section { opacity: 1; transform: none; } }
     </style>
 </head>
 <body>
+    <div class="mobile-menu-overlay" id="menuOverlay"></div>
+    <div class="mobile-menu" id="mobileMenu">
+        <ul>
+            <li><a href="{{ url_for('index') }}">Home</a></li>
+            <li><a href="{{ url_for('about') }}">Meet The Team</a></li>
+            <li><a href="{{ url_for('rules') }}" class="active">Rules</a></li>
+            <li><a href="{{ url_for('timeline') }}">Timeline</a></li>
+        </ul>
+    </div>
+
     <nav class="navbar" id="navbar">
         <div class="nav-container">
             <a href="{{ url_for('index') }}" class="nav-logo">Swiss National Investment Championship</a>
@@ -399,6 +103,11 @@
                 <li><a href="{{ url_for('rules') }}" class="active">Rules</a></li>
                 <li><a href="{{ url_for('timeline') }}">Timeline</a></li>
             </ul>
+            <div class="hamburger" id="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
         </div>
     </nav>
 
@@ -565,40 +274,36 @@
         <p class="end-note">End of Official Rulebook</p>
 
         <div class="button-center">
-            <a href="https://docs.google.com/document/d/1wIaWpWQPKlZ6GO7ZxNWX6RN4Ki0A1O-nCy8kMJYhqCc/edit?tab=t.0#heading=h.o6mb3un58ge3"
-                class="btn"
-                target="_blank"
-                rel="noopener noreferrer"><span>View Official Rules Document</span></a>
+            <a href="https://docs.google.com/document/d/1wIaWpWQPKlZ6GO7ZxNWX6RN4Ki0A1O-nCy8kMJYhqCc/edit?tab=t.0#heading=h.o6mb3un58ge3" class="btn" target="_blank" rel="noopener noreferrer"><span>View Official Rules Document</span></a>
         </div>
     </div>
 
     <script>
-        // Navbar scroll effect
+        const hamburger = document.getElementById('hamburger');
+        const mobileMenu = document.getElementById('mobileMenu');
+        const menuOverlay = document.getElementById('menuOverlay');
+        hamburger.addEventListener('click', () => {
+            hamburger.classList.toggle('active');
+            mobileMenu.classList.toggle('active');
+            menuOverlay.classList.toggle('active');
+        });
+        menuOverlay.addEventListener('click', () => {
+            hamburger.classList.remove('active');
+            mobileMenu.classList.remove('active');
+            menuOverlay.classList.remove('active');
+        });
         window.addEventListener('scroll', () => {
             const navbar = document.getElementById('navbar');
-            if (window.scrollY > 50) {
-                navbar.classList.add('scrolled');
-            } else {
-                navbar.classList.remove('scrolled');
-            }
+            if (window.scrollY > 50) navbar.classList.add('scrolled');
+            else navbar.classList.remove('scrolled');
         });
-
-        const observerOptions = {
-            threshold: 0.15,
-            rootMargin: '0px 0px -50px 0px'
-        };
-
+        const observerOptions = { threshold: 0.15, rootMargin: '0px 0px -50px 0px' };
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-                }
+                if (entry.isIntersecting) entry.target.classList.add('visible');
             });
         }, observerOptions);
-
-        document.querySelectorAll('.rules-section').forEach(el => {
-            observer.observe(el);
-        });
+        document.querySelectorAll('.rules-section').forEach(el => observer.observe(el));
     </script>
 </body>
 </html>
