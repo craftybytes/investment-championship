@@ -3,6 +3,9 @@ import yfinance as yf
 from datetime import datetime
 import os
 import time
+import mimetypes
+
+mimetypes.add_type('video/mp4', '.mp4')
 
 app = Flask(__name__)
 app.secret_key = os.environ.get('SECRET_KEY', 'dev-secret-key-change-in-production')
@@ -29,6 +32,11 @@ def rules():
 @app.route('/timeline')
 def timeline():
     return render_template('timeline.html')
+
+
+@app.route('/additional-help')
+def add_help():
+    return render_template('add_help.html')
 
 
 if __name__ == '__main__':

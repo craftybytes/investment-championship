@@ -66,12 +66,30 @@
         .btn::before { content: ''; position: absolute; top: 50%; left: 50%; width: 0; height: 0; border-radius: 50%; background: rgba(255, 255, 255, 0.3); transform: translate(-50%, -50%); transition: width 0.6s ease, height 0.6s ease; }
         .btn:hover::before { width: 300px; height: 300px; }
         .btn span { position: relative; z-index: 1; }
+        .btn::before { content: ''; position: absolute; top: 50%; left: 50%; width: 0; height: 0; border-radius: 50%; background: rgba(255, 255, 255, 0.3); transform: translate(-50%, -50%); transition: width 0.6s ease, height 0.6s ease; }
+        .btn:hover::before { width: 300px; height: 300px; }
+        .btn span { position: relative; z-index: 1; }
         .btn-primary { background: white; color: #1e40af; box-shadow: 0 6px 20px rgba(255, 255, 255, 0.4); }
         .btn-primary:hover { transform: translateY(-3px) scale(1.05); box-shadow: 0 12px 35px rgba(255, 255, 255, 0.5); }
         .btn:hover { transform: translateY(-3px) scale(1.05); box-shadow: 0 8px 25px rgba(0,0,0,0.2); }
         .btn:active { transform: translateY(-1px) scale(1.02); }
         .btn-disabled { opacity: 0.7; cursor: not-allowed; }
         .btn-disabled:hover { transform: none; box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4); }
+
+        .btn2 { display: inline-block; padding: 15px 30px; border-radius: 12px; text-decoration: none; font-weight: 700; font-size: 18px; transition: all 0.3s ease; background: #3b82f6; color: white; position: relative; overflow: hidden; box-shadow: 0 3px 12px rgba(59, 130, 246, 0.4); border: none; cursor: pointer; }
+        .btn2::before { content: ''; position: absolute; top: 50%; left: 50%; width: 0; height: 0; border-radius: 50%; background: rgba(255, 255, 255, 0.3); transform: translate(-50%, -50%); transition: width 0.6s ease, height 0.6s ease; }
+        .btn2:hover::before { width: 300px; height: 300px; }
+        .btn2 span { position: relative; z-index: 1; }
+        .btn2::before { content: ''; position: absolute; top: 50%; left: 50%; width: 0; height: 0; border-radius: 50%; background: rgba(255, 255, 255, 0.3); transform: translate(-50%, -50%); transition: width 0.6s ease, height 0.6s ease; }
+        .btn2:hover::before { width: 200px; height: 200px; }
+        .btn2 span { position: relative; z-index: 1; }
+        .btn2-primary { background: white; color: #1e40af; box-shadow: 0 6px 20px rgba(255, 255, 255, 0.4); }
+        .btn2-primary:hover { transform: translateY(-3px) scale(1.05); box-shadow: 0 12px 35px rgba(255, 255, 255, 0.5); }
+        .btn2:hover { transform: translateY(-3px) scale(1.05); box-shadow: 0 8px 25px rgba(0,0,0,0.2); }
+        .btn2:active { transform: translateY(-1px) scale(1.02); }
+        .btn2-disabled { opacity: 0.7; cursor: not-allowed; }
+        .btn2-disabled:hover { transform: none; box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4); }
+
         .info-section { padding: 150px 20px; background: linear-gradient(180deg, #f8f9fa 0%, white 100%); position: relative; overflow: hidden; }
         .info-container { max-width: 1200px; margin: 0 auto; }
         .section-header { text-align: center; margin-bottom: 80px; }
@@ -229,7 +247,8 @@
             <p>Join Switzerland's premier student investment competition and put your skills to the test</p>
             <p>Registration opens soon! We're finalizing our registration system and will launch it as quickly as possible. Check back regularly or follow our updates to be among the first to register when we go live.</p>
             <button class="btn btn-primary btn-disabled" style="margin-top: 30px;"><span>Register Now (Coming Soon)</span></button>
-            <p style="font-size: 16px; opacity: 0.85; margin-top: 30px;">This is an independent competition and is not affiliated with or endorsed by the Swiss government.</p>
+            <a href="{{ url_for('add_help') }}" class="btn2 btn2-primary" style="margin-top: 20px; width: 200px; display: block; margin-left: auto; margin-right: auto;"><span>Additional Help</span></a>
+            <p style="font-size: 16px; opacity: 0.85; margin-top: 30px; ">This is an independent competition and is not affiliated with or endorsed by the Swiss government.</p>
         </div>
     </section>
 
