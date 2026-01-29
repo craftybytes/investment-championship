@@ -10,9 +10,6 @@ mimetypes.add_type('video/mp4', '.mp4')
 app = Flask(__name__)
 app.secret_key = os.environ.get('SECRET_KEY', 'dev-secret-key-change-in-production')
 
-# Default stocks for new users
-DEFAULT_STOCKS = ['AAPL', 'GOOGL', 'MSFT', 'TSLA', 'AMZN', 'NVDA', 'META', 'NFLX']
-
 
 @app.route('/')
 def index():
