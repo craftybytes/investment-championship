@@ -46,7 +46,38 @@
         .top-countdown-item { display: flex; flex-direction: column; align-items: center; }
         .top-countdown-number { font-size: 24px; font-weight: 800; line-height: 1; }
         .top-countdown-label { font-size: 10px; text-transform: uppercase; opacity: 0.9; margin-top: 2px; }
-        .hero { background: linear-gradient(135deg, #1e40af 0%, #3b82f6 50%, #8b5cf6 100%); color: white; text-align: center; padding: 140px 20px; min-height: 85vh; display: flex; flex-direction: column; justify-content: center; align-items: center; position: relative; overflow: hidden; }
+        .hero {
+            background: url("{{ url_for('static', filename='imgs/IMG3.jpeg') }}");
+            background-size: cover;
+            background-position: center;
+            color: white;
+            text-align: center;
+            padding: 140px 20px;
+            min-height: 85vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0);
+            z-index: 0;
+            transition: background 0.5s ease;
+        }
+
+        .hero:hover::after {
+            background: rgba(0, 0, 0, 0.5);
+        }
+
         .hero::before { content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: url('data:image/svg+xml,<svg width="100" height="100" xmlns="http://www.w3.org/2000/svg"><circle cx="2" cy="2" r="1" fill="white" opacity="0.1"/></svg>'); animation: float 20s linear infinite; }
         @keyframes float { 0% { transform: translateY(0); } 100% { transform: translateY(-100px); } }
         .hero-content { position: relative; z-index: 1; width: 100%; display: flex; flex-direction: column; align-items: center; }
