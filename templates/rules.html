@@ -3,7 +3,7 @@
 <head>
     <title>Rules - SNIC</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" type="image/png" href="{{ url_for('static', filename='imgs/LOGO_RED.png') }}">
+    <link rel="icon" type="image/png" href="static/imgs/LOGO_RED.png">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -45,7 +45,7 @@
         .page-header h1 { font-size: 48px; font-weight: 800; margin-bottom: 15px; position: relative; z-index: 1; text-shadow: 0 4px 20px rgba(0,0,0,0.2); }
         .page-header p { font-size: 18px; opacity: 0.95; max-width: 700px; margin: 0 auto; position: relative; z-index: 1; text-shadow: 0 2px 10px rgba(0,0,0,0.1); }
         .content-section { max-width: 900px; margin: 0 auto; padding: 60px 20px; }
-        .rules-section { background: white; padding: 40px; border-radius: 20px; box-shadow: 0 10px 40px rgba(0,0,0,0.08); margin-bottom: 60px; opacity: 0; transform: translateX(-50px); transition: all 0.4s ease; cursor: pointer; position: relative; }
+        .rules-section { background: white; padding: 40px; border-radius: 20px; box-shadow: 0 10px 40px rgba(0,0,0,0.08); margin-bottom: 60px; opacity: 1; transform: translateX(0); transition: all 0.4s ease; cursor: pointer; position: relative; }
         .rules-section:hover { transform: translateY(-5px) scale(1.01); box-shadow: 0 20px 60px rgba(59, 130, 246, 0.2); }
         .rules-section.visible { animation: slideInFade 0.6s ease-out forwards; }
         @keyframes slideInFade { to { opacity: 1; transform: translateX(0); } }
@@ -64,6 +64,20 @@
         .rules-section ul { margin: 15px 0 15px 25px; color: #555; }
         .rules-section ul li { margin-bottom: 8px; transition: all 0.3s ease; padding: 4px; border-radius: 4px; }
         .rules-section ul li:hover { background: #f0f7ff; transform: translateX(5px); }
+        .grading-table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+        .grading-table th { background: linear-gradient(135deg, #1e40af, #3b82f6); color: white; padding: 15px; text-align: left; font-weight: 600; }
+        .grading-table td { padding: 12px 15px; border-bottom: 1px solid #e5e7eb; color: #333; }
+        .grading-table tr:hover { background: #f8f9fa; }
+        .criterion-header { background: #f0f7ff !important; font-weight: 700; color: #1e40af; }
+        .marks-badge { display: inline-block; padding: 4px 10px; background: #3b82f6; color: white; border-radius: 6px; font-size: 12px; font-weight: 600; }
+        .percentage-badge { display: inline-block; padding: 4px 10px; background: #8b5cf6; color: white; border-radius: 6px; font-size: 12px; font-weight: 600; margin-left: 8px; }
+        .grading-note { background: #fef3c7; border-left: 4px solid #f59e0b; padding: 15px; margin: 20px 0; border-radius: 8px; color: #333; }
+        .grading-note strong { color: #92400e; }
+        .summary-table { width: 100%; border-collapse: collapse; margin: 30px 0; }
+        .summary-table th, .summary-table td { padding: 15px; text-align: center; border: 2px solid #e5e7eb; color: #333; }
+        .summary-table th { background: linear-gradient(135deg, #1e40af, #3b82f6); color: white; font-weight: 700; }
+        .summary-table tr:nth-child(even) { background: #f8f9fa; }
+        .summary-table .total-row { background: #1e40af; color: white; font-weight: 700; font-size: 18px; }
         .btn { display: inline-block; padding: 18px 40px; background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%); color: white; border-radius: 12px; text-decoration: none; font-weight: 700; font-size: 16px; transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4); position: relative; overflow: hidden; }
         .btn::before { content: ''; position: absolute; top: 50%; left: 50%; width: 0; height: 0; border-radius: 50%; background: rgba(255, 255, 255, 0.3); transform: translate(-50%, -50%); transition: width 0.6s ease, height 0.6s ease; }
         .btn:hover::before { width: 300px; height: 300px; }
@@ -86,11 +100,15 @@
             .rules-section h3 { font-size: 18px; }
             .rule-item { font-size: 14px; }
             .severity-badge { font-size: 9px; padding: 4px 10px; margin-left: 5px; }
+            .grading-table { font-size: 13px; }
+            .grading-table th, .grading-table td { padding: 10px 8px; }
+            .summary-table { font-size: 13px; }
             .btn { padding: 14px 28px; font-size: 14px; }
             .end-note { font-size: 20px; }
         }
         @media (max-width: 480px) {
             .nav-logo { font-size: 24px; }
+            .grading-table, .summary-table { font-size: 11px; }
         }
         @media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } .rules-section { opacity: 1; transform: none; } }
     </style>
@@ -99,23 +117,23 @@
     <div class="mobile-menu-overlay" id="menuOverlay"></div>
     <div class="mobile-menu" id="mobileMenu">
         <ul>
-            <li><a href="{{ url_for('index') }}">Home</a></li>
-            <li><a href="{{ url_for('about') }}">Meet The Team</a></li>
-            <li><a href="{{ url_for('rules') }}" class="active">Rules</a></li>
-            <li><a href="{{ url_for('timeline') }}">Timeline</a></li>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="about.html">Meet The Team</a></li>
+            <li><a href="rules.html" class="active">Rules</a></li>
+            <li><a href="timeline.html">Timeline</a></li>
         </ul>
     </div>
 
     <nav class="navbar" id="navbar">
         <div class="nav-container">
-            <a href="{{ url_for('index') }}" class="nav-logo-container">
-                <img src="{{ url_for('static', filename='imgs/LOGO_RED.png') }}" alt="SNIC Logo" class="nav-logo-img">
+            <a href="index.html" class="nav-logo-container">
+                <img src="static/imgs/LOGO_RED.png" alt="SNIC Logo" class="nav-logo-img">
                 <span class="nav-logo">SNIC</span>
             </a>
             <ul class="nav-links">
-                <li><a href="{{ url_for('about') }}">Meet The Team</a></li>
-                <li><a href="{{ url_for('rules') }}" class="active">Rules</a></li>
-                <li><a href="{{ url_for('timeline') }}">Timeline</a></li>
+                <li><a href="about.html">Meet The Team</a></li>
+                <li><a href="rules.html" class="active">Rules</a></li>
+                <li><a href="timeline.html">Timeline</a></li>
             </ul>
             <div class="hamburger" id="hamburger">
                 <span></span>
@@ -287,6 +305,354 @@
         </div>
 
         <p class="end-note">End of Official Rulebook</p>
+
+        <!-- GRADING SYSTEM SECTION -->
+        <div class="rules-section">
+            <h2>Grading System</h2>
+
+            <div class="grading-note">
+                <strong>Important Notes:</strong><br>
+                • A number in brackets (e.g., "(2)") indicates the number of marks for that sub-criteria<br>
+                • 0 Marks in Criterion E will result in an end of marking for that team's work
+            </div>
+
+            <h3>Criterion A: Investment Performance <span class="marks-badge">10 marks</span><span class="percentage-badge">20%</span></h3>
+
+            <table class="grading-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Rubric</th>
+                        <th>Marks</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>A.1</strong></td>
+                        <td>
+                            <strong>Net positive gains in total money</strong><br>
+                            The total money the team ends with is greater than the starting amount<br><br>
+                            <strong>Mark Allocations:</strong><br>
+                            • 2 marks: Portfolio shows net positive return (any amount above starting capital)<br>
+                            • 1 mark: Portfolio breaks even or shows minimal loss (within -2% of starting capital)<br>
+                            • 0 marks: Portfolio shows significant loss (more than -2% below starting capital)
+                        </td>
+                        <td><span class="marks-badge">2</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>A.2</strong></td>
+                        <td>
+                            <strong>Trade notes</strong><br>
+                            The team's trade notes are relevant to the case study and market data (2), and allow for clear understanding of why the trade was made through logical explanation and reasoning (2)<br><br>
+                            <strong>Relevance (2 marks):</strong><br>
+                            • 2 marks: All trades include notes with ticker symbol, position size, entry price, and specific rationale tied to market conditions<br>
+                            • 1 mark: Most trades have notes but some lack key details<br>
+                            • 0 marks: Trade notes are missing, incomplete, or not relevant<br><br>
+                            <strong>Clear Understanding (2 marks):</strong><br>
+                            • 2 marks: Notes demonstrate deep understanding with specific catalysts, analysis, risk considerations<br>
+                            • 1 mark: Notes show basic understanding but lack specificity<br>
+                            • 0 marks: Notes show no real understanding or are absent
+                        </td>
+                        <td><span class="marks-badge">4</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>A.3</strong></td>
+                        <td>
+                            <strong>Diverse investments</strong><br>
+                            The trades made inside the team's portfolio are comprised of multiple different asset classes<br><br>
+                            <strong>Mark Allocations:</strong><br>
+                            • 4 marks: Portfolio includes 4+ different asset classes<br>
+                            • 3 marks: Portfolio includes 3 different asset classes with meaningful allocation<br>
+                            • 2 marks: Portfolio includes 2 different asset classes<br>
+                            • 1 mark: Minimal diversification (mostly one asset class)<br>
+                            • 0 marks: Only 1 asset class or fewer than 3 total holdings
+                        </td>
+                        <td><span class="marks-badge">4</span></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>Criterion B: Case Study Analytics <span class="marks-badge">10 marks</span><span class="percentage-badge">20%</span></h3>
+
+            <table class="grading-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Rubric</th>
+                        <th>Marks</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>B.1</strong></td>
+                        <td>
+                            <strong>Case study depth of research</strong><br>
+                            The total extent of the depth of the team's research into companies and asset classes<br><br>
+                            <strong>Mark Allocations:</strong><br>
+                            • 4 marks: Comprehensive research with 5+ credible citations, detailed financial metrics, competitor and industry analysis<br>
+                            • 3 marks: Good research with 3-4 citations, some financial analysis, multiple reliable sources<br>
+                            • 2 marks: Adequate research with 2 citations, basic company information<br>
+                            • 1 mark: Minimal research with 1 source, superficial analysis<br>
+                            • 0 marks: No meaningful research or unreliable sources
+                        </td>
+                        <td><span class="marks-badge">4</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>B.2</strong></td>
+                        <td>
+                            <strong>Scenario analysis</strong><br>
+                            The team thoroughly analyses the scenario of the case study with meaningful explanations<br><br>
+                            <strong>Mark Allocations:</strong><br>
+                            • 2 marks: Thorough analysis of key risks/opportunities, market implications, specific strategy adjustments<br>
+                            • 1 mark: Basic scenario understanding but lacks depth or clear connection to strategy<br>
+                            • 0 marks: No meaningful scenario analysis or complete misunderstanding
+                        </td>
+                        <td><span class="marks-badge">2</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>B.3</strong></td>
+                        <td>
+                            <strong>Adhering to case study</strong><br>
+                            The team adheres to the case study by making meaningful trade notes linked to it (1) and making their trades coherent to it (3)<br><br>
+                            <strong>Trade Notes Linked (1 mark):</strong><br>
+                            • 1 mark: Trade notes explicitly reference case study factors for most trades<br>
+                            • 0 marks: Notes fail to connect trades to case study<br><br>
+                            <strong>Trades Coherent (3 marks):</strong><br>
+                            • 3 marks: 60%+ of portfolio value in case-study-aligned trades<br>
+                            • 2 marks: 40-59% in aligned trades, moderate coherence<br>
+                            • 1 mark: 20-39% in aligned trades, weak connection<br>
+                            • 0 marks: <20% aligned or directly contradicts case study
+                        </td>
+                        <td><span class="marks-badge">4</span></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>Criterion C: Reports (Most Important) <span class="marks-badge">16 marks</span><span class="percentage-badge">32%</span></h3>
+
+            <table class="grading-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Rubric</th>
+                        <th>Marks</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>C.1</strong></td>
+                        <td>
+                            <strong>Research</strong><br>
+                            The communication behind trades is understandable (3) and reinforced with relevant research (2)<br><br>
+                            <strong>Understandable Communication (3 marks):</strong><br>
+                            • 3 marks: All explanations clear, logically organized, appropriate terminology with definitions<br>
+                            • 2 marks: Most explanations clear but some lack clarity<br>
+                            • 1 mark: Frequently unclear or overly technical<br>
+                            • 0 marks: Confusing or incoherent<br><br>
+                            <strong>Relevant Research (2 marks):</strong><br>
+                            • 2 marks: All major claims supported by credible, properly cited sources<br>
+                            • 1 mark: Some research but incomplete citations<br>
+                            • 0 marks: Little to no research cited or unreliable sources
+                        </td>
+                        <td><span class="marks-badge">5</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>C.2</strong></td>
+                        <td>
+                            <strong>Documentation quality</strong><br>
+                            Trade logs, portfolio records, and supporting materials are well-organized, professional, and complete<br><br>
+                            <strong>Mark Allocations:</strong><br>
+                            • 3 marks: Complete documentation with all trade logs, portfolio snapshots, P&L calculations, supporting charts, professionally formatted<br>
+                            • 2 marks: Good documentation with minor gaps<br>
+                            • 1 mark: Basic documentation with significant gaps<br>
+                            • 0 marks: Documentation largely missing or disorganized
+                        </td>
+                        <td><span class="marks-badge">3</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>C.3</strong></td>
+                        <td>
+                            <strong>Clarity and structure</strong><br>
+                            Information is presented in a logical sequence with clear headings and professional formatting<br><br>
+                            <strong>Mark Allocations:</strong><br>
+                            • 2 marks: Logical structure (executive summary → methodology → analysis → results → conclusion), clear headings, professional appearance<br>
+                            • 1 mark: Basic structure but inconsistent formatting<br>
+                            • 0 marks: Lacks clear structure or poor formatting
+                        </td>
+                        <td><span class="marks-badge">2</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>C.4</strong></td>
+                        <td>
+                            <strong>Analysis and reflection</strong><br>
+                            Critical evaluation of trading performance (1), risk assessment (1), and identification of lessons learned with actionable insights (1)<br><br>
+                            <strong>Mark Allocations:</strong><br>
+                            • Performance evaluation (1): Honest critical analysis with specific examples and metrics<br>
+                            • Risk assessment (1): Discusses specific risks, volatility, position sizing<br>
+                            • Lessons learned (1): Identifies specific lessons with concrete actionable takeaways
+                        </td>
+                        <td><span class="marks-badge">3</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>C.5</strong></td>
+                        <td>
+                            <strong>Technical accuracy</strong><br>
+                            Correct use of financial terminology, accurate calculations, proper application of investment concepts (2), and appropriate citation of sources (1)<br><br>
+                            <strong>Mark Allocations:</strong><br>
+                            • Investment concepts (2 marks): Consistently correct terminology, calculations, concept application<br>
+                            • Citation quality (1 mark): All sources properly cited with consistent format (Harvard - Cite Em Right style)
+                        </td>
+                        <td><span class="marks-badge">3</span></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>Criterion D: Interviews <span class="marks-badge">8 marks</span><span class="percentage-badge">16%</span></h3>
+
+            <table class="grading-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Rubric</th>
+                        <th>Marks</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>D.1</strong></td>
+                        <td>
+                            <strong>Knowledge and understanding</strong><br>
+                            Demonstrates comprehensive understanding of investment strategies (1), trading rationale (1), and market concepts (2)<br><br>
+                            <strong>Mark Allocations:</strong><br>
+                            • Investment strategies (1): Can clearly explain overall approach and reasoning<br>
+                            • Trading rationale (1): Can articulate specific reasons for individual trades<br>
+                            • Market concepts (2): Strong understanding with fluent discussion and examples
+                        </td>
+                        <td><span class="marks-badge">4</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>D.2</strong></td>
+                        <td>
+                            <strong>Critical thinking</strong><br>
+                            Provides reasoned responses to challenging questions (1), acknowledges limitations, and demonstrates analytical ability under pressure (1)<br><br>
+                            <strong>Mark Allocations:</strong><br>
+                            • Reasoned responses (1): Thoughtful, well-reasoned answers with logical defense<br>
+                            • Analytical thinking (1): Handles unexpected questions calmly, acknowledges gaps honestly
+                        </td>
+                        <td><span class="marks-badge">2</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>D.3</strong></td>
+                        <td>
+                            <strong>Reflection and adaptability</strong><br>
+                            Shows awareness of mistakes or improvement areas (1), discusses what they would do differently, and responds constructively to feedback (1)<br><br>
+                            <strong>Mark Allocations:</strong><br>
+                            • Awareness (1): Genuine self-awareness about mistakes, identifies improvement areas<br>
+                            • Constructive response (1): Receives feedback professionally, discusses alternative approaches
+                        </td>
+                        <td><span class="marks-badge">2</span></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>Criterion E: Cooperation and Compliance <span class="marks-badge">6 marks</span><span class="percentage-badge">12%</span></h3>
+
+            <div class="grading-note">
+                <strong>Critical:</strong> 0 marks in Criterion E will result in an end of marking for that team's work
+            </div>
+
+            <table class="grading-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Rubric</th>
+                        <th>Marks</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>E.1</strong></td>
+                        <td>
+                            <strong>Collaboration Proof</strong><br>
+                            The team provides tangible proof of collaboration<br><br>
+                            <strong>Mark Allocations:</strong><br>
+                            • 2 marks: Clear evidence through meeting notes, shared document history, communication logs, documented division of labor<br>
+                            • 1 mark: Some evidence but limited or informal<br>
+                            • 0 marks: No tangible proof provided
+                        </td>
+                        <td><span class="marks-badge">2</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>E.2</strong></td>
+                        <td>
+                            <strong>Rule adhering</strong><br>
+                            The team adheres to all competition rules<br><br>
+                            <strong>Mark Allocations:</strong><br>
+                            • 2 marks: Full compliance with all rules<br>
+                            • Deductions: -1 mark for each rule violation<br>
+                            • 0 marks: Multiple violations or severe breach
+                        </td>
+                        <td><span class="marks-badge">2</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>E.3</strong></td>
+                        <td>
+                            <strong>Professionalism and conduct</strong><br>
+                            Team maintains respectful communication, meets deadlines, responds promptly to organizer requests, and demonstrates professional behavior<br><br>
+                            <strong>Mark Allocations:</strong><br>
+                            • 2 marks: Exemplary professionalism (all deadlines met, prompt responses within 24-48 hours, respectful tone, proactive communication)<br>
+                            • 1 mark: Generally professional with occasional lapses<br>
+                            • 0 marks: Unprofessional behavior (multiple missed deadlines, disrespectful communication, ignoring requests)
+                        </td>
+                        <td><span class="marks-badge">2</span></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>Summary of Marks and Percentages</h3>
+
+            <table class="summary-table">
+                <thead>
+                    <tr>
+                        <th>Criterion</th>
+                        <th>Percentage of Marks</th>
+                        <th>Marks</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>A - Investment Performance</td>
+                        <td>20%</td>
+                        <td>10</td>
+                    </tr>
+                    <tr>
+                        <td>B - Case Study Analytics</td>
+                        <td>20%</td>
+                        <td>10</td>
+                    </tr>
+                    <tr>
+                        <td>C - Reports</td>
+                        <td>32%</td>
+                        <td>16</td>
+                    </tr>
+                    <tr>
+                        <td>D - Interviews</td>
+                        <td>16%</td>
+                        <td>8</td>
+                    </tr>
+                    <tr>
+                        <td>E - Cooperation & Compliance</td>
+                        <td>12%</td>
+                        <td>6</td>
+                    </tr>
+                    <tr class="total-row">
+                        <td>TOTAL</td>
+                        <td>100%</td>
+                        <td>50</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
 
         <div class="button-center">
             <a href="https://docs.google.com/document/d/1wIaWpWQPKlZ6GO7ZxNWX6RN4Ki0A1O-nCy8kMJYhqCc/edit?tab=t.0#heading=h.o6mb3un58ge3" class="btn" target="_blank" rel="noopener noreferrer"><span>View Official Rules Document</span></a>
