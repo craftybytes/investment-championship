@@ -117,23 +117,23 @@
     <div class="mobile-menu-overlay" id="menuOverlay"></div>
     <div class="mobile-menu" id="mobileMenu">
         <ul>
-            <li><a href="index.html">Home</a></li>
-            <li><a href="about.html">Meet The Team</a></li>
-            <li><a href="rules.html" class="active">Rules</a></li>
-            <li><a href="timeline.html">Timeline</a></li>
+            <li><a href="{{ url_for('index') }}">Home</a></li>
+            <li><a href="{{ url_for('about') }}">Meet The Team</a></li>
+            <li><a href="{{ url_for('rules') }}" class="active">Rules</a></li>
+            <li><a href="{{ url_for('timeline') }}">Timeline</a></li>
         </ul>
     </div>
 
     <nav class="navbar" id="navbar">
         <div class="nav-container">
-            <a href="index.html" class="nav-logo-container">
-                <img src="static/imgs/LOGO_RED.png" alt="SNIC Logo" class="nav-logo-img">
+            <a href="{{ url_for('index') }}" class="nav-logo-container">
+                <img src="{{ url_for('static', filename='imgs/LOGO_RED.png') }}" alt="SNIC Logo" class="nav-logo-img">
                 <span class="nav-logo">SNIC</span>
             </a>
             <ul class="nav-links">
-                <li><a href="about.html">Meet The Team</a></li>
-                <li><a href="rules.html" class="active">Rules</a></li>
-                <li><a href="timeline.html">Timeline</a></li>
+                <li><a href="{{ url_for('about') }}">Meet The Team</a></li>
+                <li><a href="{{ url_for('rules') }}" class="active">Rules</a></li>
+                <li><a href="{{ url_for('timeline') }}">Timeline</a></li>
             </ul>
             <div class="hamburger" id="hamburger">
                 <span></span>
