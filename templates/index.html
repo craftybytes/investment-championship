@@ -197,7 +197,7 @@
     </div>
 
     <div class="top-countdown">
-        <div>Competition Starts In:</div>
+        <div>Competition Registration ends in:</div>
         <div class="top-countdown-timer">
             <div class="top-countdown-item">
                 <div class="top-countdown-number" id="topDays">0</div>
@@ -355,7 +355,7 @@
         window.addEventListener('scroll', animateOnScroll);
         window.addEventListener('load', animateOnScroll);
 
-        const countdownDate = new Date('February 27, 2026 00:00:00').getTime();
+        const countdownDate = new Date('February 27, 2026 23:59:59').getTime();
         function updateCountdown() {
             const now = new Date().getTime();
             const distance = countdownDate - now;
@@ -368,7 +368,7 @@
             document.getElementById('topMinutes').textContent = minutes;
             document.getElementById('topSeconds').textContent = seconds;
             if (distance < 0) {
-                document.querySelector('.top-countdown').innerHTML = '<div style="padding: 15px;">Competition has started!</div>';
+                document.querySelector('.top-countdown').innerHTML = '<div style="padding: 15px;">Competition registration has ended!</div>';
             }
         }
         updateCountdown();
